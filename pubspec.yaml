@@ -1,0 +1,232 @@
+name: prototype_app_pang
+description: A new Flutter project.
+
+# The following defines the version and build number for your application.
+# A version number is three numbers separated by dots, like 1.2.43
+# followed by an optional build number separated by a +.
+# Both the version and the builder number may be overridden in flutter
+# build by specifying --build-name and --build-number, respectively.
+# In Android, build-name is used as versionName while build-number used as versionCode.
+# Read more about Android versioning at https://developer.android.com/studio/publish/versioning
+# In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
+# Read more about iOS versioning at
+# https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
+#version: 1.0.0+1
+version: 1.0.8+6
+
+environment:
+  sdk: ">=2.1.0 <3.0.0"
+
+dependencies:
+  flutter_localizations:
+    sdk: flutter
+  flutter:
+    sdk: flutter
+
+  # The following adds the Cupertino Icons font to your application.
+  # Use with the CupertinoIcons class for iOS style icons.
+  flutter_launcher_icons: ^0.7.0
+  cupertino_icons: ^0.1.2
+  font_awesome_flutter: ^8.4.0
+  flutter_calendar_carousel: ^1.3.15+4
+  expandable: ^3.0.0+1
+  google_maps_flutter: ^0.5.21+8
+  geocoder: ^0.2.1
+  flutter_google_places: ^0.2.2
+  location: ^2.3.5
+  image_picker: ^0.6.0+15
+  tip_dialog: ^2.0.1
+  async_loader: 0.1.2
+  http: any
+  charts_flutter: ^0.8.1
+  autocomplete_textfield: 1.7.1
+  flutter_typeahead: ^1.6.0
+  timeline_list: ^0.0.4
+  image_picker_saver: ^0.3.0
+  video_player: ^0.10.0
+  dio: 2.1.7
+  connectivity: ^0.4.2
+  exif: ^1.0.1
+  badges: ^1.1.0
+  flutter_pdfview: ^1.0.0+10
+  share_extend: "^1.0.9"
+  flutter_cupertino_date_picker: ^1.0.11
+  flutter_cupertino_localizations: ^1.0.1
+
+  cached_network_image: ^2.0.0-rc
+  filesize: ^1.0.4
+  webview_flutter: ^0.3.11
+  flutter_local_notifications: ^0.8.1
+
+  #Guy
+  file_picker: ^1.3.4+1
+  path_provider: ^1.1.0
+  font_awesome: ^5.9.0
+
+  url_launcher: ^5.1.2
+  package_info: ^0.4.0+6
+  # firebase_remote_config: ^0.2.0+6
+
+  flutter_image_compress: ^0.6.3
+  flutter_screenutil: ^1.0.2
+  decimal: ^0.3.5
+  shared_preferences: ^0.5.4
+  keyboard_visibility: ^0.5.6
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+flutter_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/icons/icon_app.png"
+
+# For information on the generic Dart part of this file, see the
+# following page: https://www.dartlang.org/tools/pub/pubspec
+
+# The following section is specific to Flutter.
+flutter:
+  # The following line ensures that the Material Icons font is
+  # included with your application, so that you can use the icons in
+  # the material Icons class.
+  uses-material-design: true
+
+  # To add assets to your application, add an assets section, like this:
+  assets:
+    - assets/icons/landing/notice_landing.png
+    - assets/icons/landing/arrest_landing.png
+    - assets/icons/landing/auction_landing.png
+    - assets/icons/landing/destroy_landing.png
+    - assets/icons/landing/tranfer_landing.png
+    - assets/icons/landing/musium_landing.png
+    - assets/icons/landing/export_landing.png
+    - assets/icons/landing/return_landing.png
+    - assets/icons/landing/network_landing.png
+    - assets/images/logo.jpg
+    - assets/images/logo.png
+    - assets/images/logo_login.png
+    - assets/images/logo_page.png
+    - assets/images/bg.png
+    - assets/images/bg_main.png
+    - assets/images/avatar.jpg
+    - assets/images/avatar.png
+    - assets/images/avatar_chat.jpeg
+    - assets/images/zan/arest.jpg
+    - assets/images/opacity.png
+    - assets/images/opacity1.png
+    - assets/images/opacity3.png
+    - assets/icons/icon_app.png
+    - assets/icons/icon_drawer_notice.png
+    - assets/icons/icon_drawer_tab1.png
+    - assets/icons/icon_drawer_tab2.png
+    - assets/icons/icon_drawer_tab3.png
+    - assets/icons/icon_drawer_tab4.png
+    - assets/icons/icon_drawer_tab5.png
+    - assets/icons/icon_drawer_tab6.png
+    - assets/icons/icon_drawer_tab7.png
+    - assets/icons/icon_drawer_tab8.png
+    - assets/icons/icon_drawer_tab9.png
+    - assets/icons/icon_drawer_tab10.png
+    - assets/icons/icon_findlaw.png
+    - assets/icons/marker.png
+    - assets/icons/icon_drawer_tab5_1.png
+    - assets/icons/icon_drawer_tab5_2.png
+    - assets/icons/icon_drawer_tab5_3.png
+    - assets/icons/icon_drawer_tab5_4.png
+    - assets/icons/icon_drawer_tab5_6.png
+    - assets/icons/icon_drawer_tab5_7.png
+    - assets/icons/icon_drawer_tab5_8.png
+    - assets/icons/icon_drawer_tab5_9.png
+    - assets/images/delivery_canceled.png
+    - assets/icons/icon_drawer_fine.png
+    #zan
+    - assets/images/zan/person_1.jpg
+    - assets/images/zan/person_2.jpg
+    - assets/images/zan/person_3.JPEG
+
+    #map
+    - assets/images/map/map2.png
+    - assets/images/map/S1.png
+    - assets/images/map/S2.png
+    - assets/images/map/S3.png
+    - assets/images/map/S4.png
+    - assets/images/map/S5.png
+    - assets/images/map/S6.png
+    - assets/images/map/S7.png
+    - assets/images/map/S8.png
+    - assets/images/map/S9.png
+    - assets/images/map/S10.png
+
+    - assets/images/map/S1.jpg
+
+    - assets/images/map/S1_1.png
+    - assets/images/map/S2_1.png
+    - assets/images/map/S3_1.png
+    - assets/images/map/S4_1.png
+    - assets/images/map/S5_1.png
+    - assets/images/map/S6_1.png
+    - assets/images/map/S7_1.png
+    - assets/images/map/S8_1.png
+    - assets/images/map/S9_1.png
+    - assets/images/map/S10_1.png
+
+    #file
+    - assets/icons/file/doc.png
+    - assets/icons/file/jpg.png
+    - assets/icons/file/pdf.png
+    - assets/icons/file/png.png
+    - assets/icons/file/ppt.png
+    - assets/icons/file/sql.png
+    - assets/icons/file/txt.png
+    - assets/icons/file/xls.png
+    - assets/icons/file/xml.png
+    - assets/icons/file/zip.png
+    - assets/icons/file/folder.png
+
+  fonts:
+    - family: Kanit
+      fonts:
+        - asset: assets/fonts/Kanit-Black.ttf
+        - asset: assets/fonts/Kanit-BlackItalic.ttf
+        - asset: assets/fonts/Kanit-Bold.ttf
+        - asset: assets/fonts/Kanit-BoldItalic.ttf
+        - asset: assets/fonts/Kanit-Italic.ttf
+        - asset: assets/fonts/Kanit-Light.ttf
+        - asset: assets/fonts/Kanit-Medium.ttf
+        - asset: assets/fonts/Kanit-Regular.ttf
+        - asset: assets/fonts/Kanit-Thin.ttf
+    - family: Sukhumvit
+      fonts:
+        - asset: assets/fonts/sukhumvit/Sukhumvit-Bold.ttf
+        - asset: assets/fonts/sukhumvit/Sukhumvit-Light.ttf
+        - asset: assets/fonts/sukhumvit/Sukhumvit-Medium.ttf
+        - asset: assets/fonts/sukhumvit/Sukhumvit-Semibold.ttf
+        - asset: assets/fonts/sukhumvit/Sukhumvit-Thin.ttf
+    - family: Chatthai
+      fonts:
+        - asset: assets/fonts/cs_chatthai/CSChatThai.ttf
+        - asset: assets/fonts/cs_chatthai/CSChatThaiUI.ttf
+  # An image asset can refer to one or more resolution-specific "variants", see
+  # https://flutter.io/assets-and-images/#resolution-aware.
+  # For details regarding adding assets from package dependencies, see
+  # https://flutter.io/assets-and-images/#from-packages
+  # To add custom fonts to your application, add a fonts section here,
+  # in this "flutter" section. Each entry in this list should have a
+  # "family" key with the font family name, and a "fonts" key with a
+  # list giving the asset and other descriptors for the font. For
+  # example:
+  # fonts:
+  #   - family: Schyler
+  #     fonts:
+  #       - asset: fonts/Schyler-Regular.ttf
+  #       - asset: fonts/Schyler-Italic.ttf
+  #         style: italic
+  #   - family: Trajan Pro
+  #     fonts:
+  #       - asset: fonts/TrajanPro.ttf
+  #       - asset: fonts/TrajanPro_Bold.ttf
+  #         weight: 700
+  #
+  # For details regarding fonts from package dependencies,
+  # see https://flutter.io/custom-fonts/#from-packages

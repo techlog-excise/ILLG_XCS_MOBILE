@@ -1,0 +1,26 @@
+{
+  "name": "flutter_pdfview",
+  "version": "0.0.1",
+  "summary": "A new flutter plugin project.",
+  "description": "A new flutter plugin project.",
+  "homepage": "https://github.com/endigo/flutter_pdfview",
+  "license": {
+    "file": "../LICENSE"
+  },
+  "authors": {
+    "endigo": "endigo.18@gmail.com"
+  },
+  "source": {
+    "path": "."
+  },
+  "source_files": "Classes/**/*",
+  "public_header_files": "Classes/**/*.h",
+  "dependencies": {
+    "Flutter": [
+
+    ]
+  },
+  "platforms": {
+    "ios": "9.0"
+  }
+}
