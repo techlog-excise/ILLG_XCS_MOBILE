@@ -9,7 +9,6 @@ import 'package:prototype_app_pang/test.dart';
 import 'package:prototype_app_pang/text/text.dart';
 import 'package:prototype_app_pang/color/text.dart';
 
-
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
@@ -29,7 +28,7 @@ class MyApp extends StatelessWidget {
       routes: <String, WidgetBuilder>{
         //intent เกี่ยวข้อง
         '/Home': (BuildContext context) => new HomeScreen(),
-        '/ArrstMain' : (BuildContext context) => new ArrestMainScreenFragment(),
+        '/ArrstMain': (BuildContext context) => new ArrestMainScreenFragment(),
         '/Login': (BuildContext context) => new LoginScreen(),
         '/Test': (BuildContext context) => new TestPage(),
       },
@@ -57,6 +56,7 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
     var _duration = new Duration(seconds: 4);
     return new Timer(_duration, navigationPage);
   }
+
   //set Font
   FontStyles _fontStyles = FontStyles();
 
@@ -73,16 +73,13 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
     Navigator.of(context).pushReplacementNamed('/Login');
     //Navigator.of(context).pushReplacementNamed('/Test');
     //Navigator.of(context).pushReplacementNamed('/Version');
-
   }
 
   @override
   void initState() {
     super.initState();
-    animationController = new AnimationController(
-        vsync: this, duration: new Duration(seconds: 2));
-    animation = new CurvedAnimation(
-        parent: animationController, curve: Curves.fastOutSlowIn);
+    animationController = new AnimationController(vsync: this, duration: new Duration(seconds: 2));
+    animation = new CurvedAnimation(parent: animationController, curve: Curves.fastOutSlowIn);
     animation.addListener(() {
       this.setState(() {});
     });
@@ -108,6 +105,7 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
       animationController.forward();
     });
   }
+
   @override
   bool get wantKeepAlive => true;
 
@@ -121,8 +119,7 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
           child: new Opacity(
             opacity: animation.value * 1,
             child: new Transform(
-              transform: new Matrix4.translationValues(
-                  0.0, animation.value * -50.0, 0.0),
+              transform: new Matrix4.translationValues(0.0, animation.value * -50.0, 0.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -132,27 +129,26 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
                     width: 160.0,
                     decoration: new BoxDecoration(
                       image: DecorationImage(
-                        image: new AssetImage(
-                            'assets/images/logo.jpg'),
+                        image: new AssetImage('assets/images/logo.jpg'),
                         fit: BoxFit.contain,
                       ),
                       shape: BoxShape.circle,
                     ),
                   ),
                   new Transform(
-                    transform: new Matrix4.translationValues(
-                        0.0, animation.value * -50.0, 0.0),
+                    transform: new Matrix4.translationValues(0.0, animation.value * -50.0, 0.0),
                     child: Padding(
                       padding: EdgeInsets.only(top: 80.0),
-                      child: Text(_text.text_splash,
-                        style: TextStyle(
-                            fontSize: 18.0, color:_textColor.text_splash_color,fontFamily: _fontStyles.FontFamily),
+                      child: Text(
+                        _text.text_splash,
+                        style: TextStyle(fontSize: 18.0, color: _textColor.text_splash_color, fontFamily: _fontStyles.FontFamily),
                       ),
                     ),
                   ),
                 ],
               ),
-            ),),
+            ),
+          ),
         ),
       ),
     );

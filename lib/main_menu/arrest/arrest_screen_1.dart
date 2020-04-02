@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
+import 'dart:math';
 import 'package:expandable/expandable.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:filesize/filesize.dart';
@@ -17,6 +18,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:prototype_app_pang/Model/choice.dart';
 import 'package:prototype_app_pang/font_family/font_style.dart';
 import 'package:prototype_app_pang/main_menu/arrest/model/item_arrest_indictment_detail.dart';
+import 'package:prototype_app_pang/main_menu/arrest/model/item_arrest_indictment_edit.dart';
 import 'package:prototype_app_pang/main_menu/arrest/model/item_arrest_indictment_product_edit.dart';
 import 'package:prototype_app_pang/main_menu/arrest/model/item_arrest_lawbreaker.dart';
 import 'package:prototype_app_pang/main_menu/arrest/model/item_arrest_main_edit.dart';
@@ -457,6 +459,10 @@ class _ArrestMainScreenFragmentState extends State<ArrestMainScreenFragment> wit
         await future.apiRequestGet(MAP_ARREST_ID).then((onValue) {
           _arrestMain = onValue;
 
+          onValue.ArrestIndictment.forEach((f) {
+            _tempIndictmentEdit.add(f);
+          });
+
           //sort staff
           _arrestMain.ArrestStaff.sort((a, b) {
             return a.STAFF_ID.compareTo(b.STAFF_ID);
@@ -760,6 +766,8 @@ class _ArrestMainScreenFragmentState extends State<ArrestMainScreenFragment> wit
 
     List tempLawbreaker = [];
     List<Map> tempMap = [];
+    List<Map> tempProduct = [];
+    // ======================== Add new people to already indictment ========================
     if (!IsUpAddLawbreaker) {
       await future.apiRequestArrestLawbreakerinsAll(map_upadd_law).then((onValue) {
         if (onValue.IsSuccess.endsWith("True") && onValue.Msg.endsWith("Complete")) {
@@ -787,29 +795,9 @@ class _ArrestMainScreenFragmentState extends State<ArrestMainScreenFragment> wit
         });
       }
 
-      print("object map_up_indic_delt: ${map_up_indic_delt.length}");
+      // print("object map_up_indic_delt: ${map_up_indic_delt.length}");
       if (map_up_indic_delt.length > 0) {
         map_up_indic_delt.forEach((f) {
-          // print("object PERSON_ID: ${f["PERSON_ID"]}");
-          // print("object LAWBREAKER_ID: ${f["LAWBREAKER_ID"]}");
-          // print("object INDICTMENT_ID: ${f["INDICTMENT_ID"]}");
-          // if (f["LAWBREAKER_ID"] != null) {
-          //   tempMap.add({
-          //     "FINE_ESTIMATE": "",
-          //     "FIRST_NAME": "",
-          //     "INDICTMENT_DETAIL_ID": "",
-          //     "INDICTMENT_ID": f["INDICTMENT_ID"],
-          //     "IS_ACTIVE": 1,
-          //     "LAST_NAME": "",
-          //     "LAWBREAKER_ID": f["LAWBREAKER_ID"],
-          //     "MIDDLE_NAME": "",
-          //     "OTHER_NAME": "",
-          //     "TITLE_NAME_EN": "",
-          //     "TITLE_NAME_TH": "",
-          //     "TITLE_SHORT_NAME_EN": "",
-          //     "TITLE_SHORT_NAME_TH": "",
-          //   });
-          // } else {
           if (f["LAWBREAKER_ID"] == null) {
             tempLawbreaker.forEach((item) {
               // print("list_add person2: ${item.PERSON_ID}, f2: ${f.PERSON_ID}");
@@ -1291,11 +1279,35 @@ class _ArrestMainScreenFragmentState extends State<ArrestMainScreenFragment> wit
     // ====================================== Insert product to new people on already indictment ============================
     List<Map> tempNewPeople = [];
     List<ItemsListArrestIndictmentProductEdit> tempProdNewPeople = [];
+    List<int> listLength = [];
+    int maxLength = 0;
+
     _arrestMainEdit.ArrestIndictment.forEach((f) {
+      tempProdNewPeople = [];
+      // listLength = [];
+      // maxLength = 0;
+      // f.ArrestIndictmentDetail.forEach((element) {
+      //   listLength.add(element.ArrestIndictmentProduct.length);
+      // });
+      // maxLength = listLength.reduce(max);
+      // print("maxLength: ${maxLength}");
+      // f.ArrestIndictmentDetail.forEach((element) {
+      //   if (element.ArrestIndictmentProduct.length == maxLength) {
+      //     tempProdNewPeople = element.ArrestIndictmentProduct;
+      //   }
+      // });
+      for (var i = 0; i < f.ArrestIndictmentDetail.length; i++) {
+        for (var j = 0; j < f.ArrestIndictmentDetail[i].ArrestIndictmentProduct.length; j++) {
+          if (f.ArrestIndictmentDetail[i].ArrestIndictmentProduct.length != 0) {
+            tempProdNewPeople = f.ArrestIndictmentDetail[i].ArrestIndictmentProduct;
+            break;
+          }
+        }
+      }
       f.ArrestIndictmentDetail.forEach((f_detail) {
         // print("f_detail.ArrestIndictmentProduct: ${f_detail.ArrestIndictmentProduct.length}");
         // print("f.INDICTMENT_DETAIL_ID: ${f_detail.INDICTMENT_DETAIL_ID}");
-        if (f_detail.ArrestIndictmentProduct.length == 0) {
+        if (f_detail.ArrestIndictmentProduct.length == 0 && tempProdNewPeople.length != 0) {
           tempProdNewPeople.forEach((temp_prod) {
             tempNewPeople.add({
               "FINE_ESTIMATE": "",
@@ -1326,15 +1338,6 @@ class _ArrestMainScreenFragmentState extends State<ArrestMainScreenFragment> wit
               "VOLUMN_UNIT_ID": temp_prod.VOLUMN_UNIT_ID,
             });
           });
-        } else {
-          tempProdNewPeople = f.ArrestIndictmentDetail[0].ArrestIndictmentProduct;
-          // tempProdNewPeople = f_detail.ArrestIndictmentProduct;
-          // for (var i = 0; i < f.ArrestIndictmentDetail.length; i++) {
-          //   if (f.ArrestIndictmentDetail[i].ArrestIndictmentProduct.length > 0) {
-          //     tempProdNewPeople = f.ArrestIndictmentDetail[i].ArrestIndictmentProduct;
-          //     break;
-          //   }
-          // }
         }
       });
     });
@@ -2100,11 +2103,24 @@ class _ArrestMainScreenFragmentState extends State<ArrestMainScreenFragment> wit
 
   /*****************************method for main tab**************************/
   void whenAnimationTab() async {
+    int init_index = tabController.index;
     final pos = tabController.length - 1;
     setState(() {
       choices.removeAt(pos);
-      tabController = TabController(initialIndex: 0, length: choices.length, vsync: this);
-      _tabPageSelector = new TabPageSelector(controller: tabController);
+      // tabController.animateTo(0);
+      // tabController = TabController(initialIndex: 0, length: choices.length, vsync: this);
+      // _tabPageSelector = new TabPageSelector(controller: tabController);
+      print("init_index: ${init_index}");
+      if (init_index == 7) {
+        tabController.animateTo(0);
+        int index = tabController.index;
+        tabController = TabController(initialIndex: index, length: choices.length, vsync: this);
+        _tabPageSelector = new TabPageSelector(controller: tabController);
+      } else {
+        int index = tabController.index;
+        tabController = TabController(initialIndex: index, length: choices.length, vsync: this);
+        _tabPageSelector = new TabPageSelector(controller: tabController);
+      }
     });
   }
 
@@ -2162,6 +2178,10 @@ class _ArrestMainScreenFragmentState extends State<ArrestMainScreenFragment> wit
         editArrestBehavior.text = behavior;
         TESTIMONY = _arrestMain.IS_REQUEST == 1 ? true : false;
         editNotificationOfRights.text = _arrestMain.IS_REQUEST == 1 ? _arrestMain.REQUEST_DESC : "ได้ดำเนินการตามที่ข้าพเจ้าร้องขอ";
+
+        _arrestMain.ArrestIndictment.forEach((f) {
+          _tempIndictmentEdit.add(f);
+        });
       } else {
         _showDeleteAlertDialog();
       }
@@ -3525,8 +3545,12 @@ class _ArrestMainScreenFragmentState extends State<ArrestMainScreenFragment> wit
     widget.IsCreate = false;
     _onSaved = true;
     _onFinish = true;
-    choices.add(Choice(title: 'แบบฟอร์ม'));
+
+    setState(() {
+      choices.add(Choice(title: 'แบบฟอร์ม'));
+    });
     int index = 6;
+    // int index = 7;
     tabController = TabController(initialIndex: index, length: choices.length, vsync: this);
     _tabPageSelector = new TabPageSelector(controller: tabController);
     tabController.animateTo((choices.length - 1));
@@ -6607,6 +6631,9 @@ class _ArrestMainScreenFragmentState extends State<ArrestMainScreenFragment> wit
     if (result.toString() != "back") {
       setState(() {
         if (_onEdited) {
+          print("onEdit");
+          print("onEdit: $result");
+
           var item = result;
           List _userNotChooseAgain = [];
           List _userChoose = [];
@@ -8518,10 +8545,10 @@ class _ArrestMainScreenFragmentState extends State<ArrestMainScreenFragment> wit
                 _itemsLocale = new ItemsListArrestLocation(sProvince, sDistrict, sSubDistrict, _road, _lane, _addressno, _gps, placeAddress, false, "");
               }
 
-              String address = (_itemsLocale.Other.isEmpty || _itemsLocale.Other == null ? "" : _itemsLocale.Other + " ") +
-                  (_itemsLocale.ADDRESS_NO.isEmpty || _itemsLocale.ADDRESS_NO == null ? "" : _itemsLocale.ADDRESS_NO + " ") +
-                  (_itemsLocale.LANE.isEmpty || _itemsLocale.LANE == null ? "" : "ซอย " + _itemsLocale.LANE + " ") +
-                  (_itemsLocale.ROAD.isEmpty || _itemsLocale.ROAD == null ? "" : "ถนน " + _itemsLocale.ROAD + " ") +
+              String address = (_itemsLocale.Other == null || _itemsLocale.Other.isEmpty ? "" : _itemsLocale.Other + " ") +
+                  (_itemsLocale.ADDRESS_NO == null || _itemsLocale.ADDRESS_NO.isEmpty ? "" : _itemsLocale.ADDRESS_NO + " ") +
+                  (_itemsLocale.LANE == null || _itemsLocale.LANE.isEmpty ? "" : "ซอย " + _itemsLocale.LANE + " ") +
+                  (_itemsLocale.ROAD == null || _itemsLocale.ROAD.isEmpty ? "" : "ถนน " + _itemsLocale.ROAD + " ") +
                   "ตำบล/แขวง " +
                   (_itemsLocale.SUB_DISTICT.SUB_DISTRICT_NAME_TH + " ") +
                   "อำเภอ/เขต " +

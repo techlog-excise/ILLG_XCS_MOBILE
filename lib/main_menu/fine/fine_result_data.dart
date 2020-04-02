@@ -6,6 +6,8 @@ import 'package:decimal/decimal.dart';
 import 'package:keyboard_visibility/keyboard_visibility.dart';
 import 'package:prototype_app_pang/font_family/font_style.dart';
 import 'package:prototype_app_pang/future_main/login_future.dart';
+import 'package:prototype_app_pang/future_production/fine_future_production.dart';
+import 'package:prototype_app_pang/future_production/login_future_production.dart';
 import 'package:prototype_app_pang/main_menu/arrest/future/arrest_future_master.dart';
 import 'package:prototype_app_pang/main_menu/find_law/model/item_masLawGroupSubSection.dart';
 import 'package:prototype_app_pang/main_menu/fine/fine_finetype3.dart';
@@ -670,12 +672,14 @@ class _FineScreenResultData extends State<FineScreenResultData> {
     String bodyText = "client_id=56e40953-db9d-477b-954e-73f3ec357190&client_secret=71ebae10-1726-4477-8719-2f5dac68281f&grant_source=int_ldap&grant_type=password&password=train01&scope=resource.READ&username=train01";
     String resToken = "";
 
-    await new LoginFuture().apiRequestOAG(bodyText).then((onValue) async {
+    //await new LoginFuture().apiRequestOAG(bodyText).then((onValue) async {
+    await new LoginFutureProduction().apiRequestProduction().then((onValue) async {
       resToken = onValue;
       print("Response: ${resToken.toString()}");
     });
 
-    await new LoginFuture().apiRequestMasProductGroupgetByCon(resToken, map).then((onValue) async {
+    //await new LoginFuture().apiRequestMasProductGroupgetByCon(resToken, map).then((onValue) async {
+    await new FineFutureProduction().apiRequestProductionMasProductGroupgetByCon(resToken, map).then((onValue) async {
       List _items = [];
       onValue.forEach((item) {
         _items.add(item);

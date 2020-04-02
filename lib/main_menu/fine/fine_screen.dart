@@ -7,6 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:prototype_app_pang/font_family/font_style.dart';
 import 'package:prototype_app_pang/future_main/login_future.dart';
+import 'package:prototype_app_pang/future_production/fine_future_production.dart';
+import 'package:prototype_app_pang/future_production/login_future_production.dart';
 import 'package:prototype_app_pang/main_menu/find_law/future/find_law_future.dart';
 import 'package:prototype_app_pang/main_menu/find_law/model/item_find_law_response.dart';
 import 'package:prototype_app_pang/main_menu/fine/fine_result.dart';
@@ -39,6 +41,9 @@ class _FineScreen extends State<FineScreen> {
   EdgeInsets paddingLabel = EdgeInsets.only(top: 12.0);
 
   List<ItemsFindLawResponse> _searchResult = [];
+
+  String strPenalty = "";
+
   @override
   void initState() {
     // TODO: implement initState
@@ -93,12 +98,14 @@ class _FineScreen extends State<FineScreen> {
     String bodyText = "client_id=56e40953-db9d-477b-954e-73f3ec357190&client_secret=71ebae10-1726-4477-8719-2f5dac68281f&grant_source=int_ldap&grant_type=password&password=train01&scope=resource.READ&username=train01";
     String resToken = "";
 
-    await new LoginFuture().apiRequestOAG(bodyText).then((onValue) async {
+    //await new LoginFuture().apiRequestOAG(bodyText).then((onValue) async {
+    await new LoginFutureProduction().apiRequestProduction().then((onValue) async {
       resToken = onValue;
       print("Response: ${resToken.toString()}");
     });
 
-    await new LoginFuture().apiRequestMasLawGroupSubSectionRulegetByConAdv(resToken, map).then((onValue) async {
+    //await new LoginFuture().apiRequestMasLawGroupSubSectionRulegetByConAdv(resToken, map).then((onValue) async {
+    await new FineFutureProduction().apiRequestProductionMasLawGroupSubSectionRulegetByConAdv(resToken, map).then((onValue) async {
       if (onValue.length > 0) {
         print('RequestMasLawGroupSubSectionRulegetByConAdv Successssss !!');
         _searchResult = onValue;
@@ -124,8 +131,12 @@ class _FineScreen extends State<FineScreen> {
 
   @override
   void dispose() {
+    myFocusNodeLawsuit.dispose();
+    myFocusNodeMistake.dispose();
+    myFocusNodePenalty.dispose();
     editGuiltbaseName.dispose();
     editSubsectionName.dispose();
+    editPenalty.dispose();
     super.dispose();
   }
 
@@ -275,9 +286,15 @@ class _FineScreen extends State<FineScreen> {
               border: InputBorder.none,
             ),
             onChanged: (string) {
-              string = string.replaceAll(new RegExp(r'[!@#$%^&*()+?":{}|<>-]'), "");
-              editPenalty.text = string;
-              editPenalty.selection = TextSelection.fromPosition(TextPosition(offset: editPenalty.text.length));
+              String str = "";
+              str = string.replaceAll(new RegExp(r'[!@#$%^&*().+?":{}|<>-]'), "");
+              strPenalty = str;
+            },
+            onSubmitted: (string) {
+              setState(() {
+                editPenalty.text = strPenalty;
+                editPenalty.selection = TextSelection.fromPosition(TextPosition(offset: editPenalty.text.length));
+              });
             },
           ),
         ),
@@ -295,6 +312,10 @@ class _FineScreen extends State<FineScreen> {
                     // width: ScreenUtil().setWidth(260.0),
                     child: MaterialButton(
                       onPressed: () {
+                        setState(() {
+                          editPenalty.text = strPenalty;
+                          editPenalty.selection = TextSelection.fromPosition(TextPosition(offset: editPenalty.text.length));
+                        });
                         _navigateSearch(context);
                       },
                       splashColor: Colors.grey,

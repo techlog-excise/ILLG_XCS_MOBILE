@@ -5,6 +5,7 @@ import 'package:connectivity/connectivity.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:prototype_app_pang/future_production/login_future_production.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:package_info/package_info.dart';
 import 'package:prototype_app_pang/font_family/font_style.dart';
@@ -193,8 +194,11 @@ class _SplashScreenState extends State<LoginScreen> {
         if (checkValue) {
           editUsername.text = sharedPreferences.getString("username");
           editPassword.text = sharedPreferences.getString("password");
-          editUsername.selection = TextSelection.fromPosition(TextPosition(offset: editUsername.text.length));
-          editPassword.selection = TextSelection.fromPosition(TextPosition(offset: editPassword.text.length));
+          // FocusScope.of(context).requestFocus(myFocusNodeUsername);
+          // FocusScope.of(context).requestFocus(myFocusNodePassword);
+          FocusScope.of(context).unfocus();
+          // editUsername.selection = TextSelection.fromPosition(TextPosition(offset: editUsername.text.length));
+          // editPassword.selection = TextSelection.fromPosition(TextPosition(offset: editPassword.text.length));
         } else {
           editUsername.clear();
           editPassword.clear();
@@ -258,18 +262,21 @@ class _SplashScreenState extends State<LoginScreen> {
               if (checkValue) {
                 sharedPreferences.setString("username", editUsername.text);
                 sharedPreferences.setString("password", editPassword.text);
+                editUsername.selection = TextSelection.fromPosition(TextPosition(offset: editUsername.text.length));
+                editPassword.selection = TextSelection.fromPosition(TextPosition(offset: editPassword.text.length));
               }
             });
             Navigator.push(
               context,
               MaterialPageRoute(
                   builder: (context) => HomeScreen(
-                        itemsLoginStaff: _information,
-                        // itemsTitle: itemsTitle,
-                        // itemsOffice: itemsOffice,
-                        // itemsMasProductUnit: itemsMasProductUnit,
-                        // itemsMasProductSize: itemsMasProductSize,
-                        // itemsMasWarehouse: itemsMasWarehouse,
+                        ItemsData: _information,
+                        // itemsLoginStaff: _information,
+                        itemsTitle: itemsTitle,
+                        itemsOffice: itemsOffice,
+                        itemsMasProductUnit: itemsMasProductUnit,
+                        itemsMasProductSize: itemsMasProductSize,
+                        itemsMasWarehouse: itemsMasWarehouse,
                       )),
             );
           }
@@ -292,7 +299,8 @@ class _SplashScreenState extends State<LoginScreen> {
     print("mapBody: ${mapBody}");
     String resID = "";
 
-    await new LoginFuture().apiRequestOAG(bodyText).then((onValue) async {
+    //await new LoginFuture().apiRequestOAG(bodyText).then((onValue) async {
+    await new LoginFutureProduction().apiRequestProduction().then((onValue) async {
       if (onValue == null) {
         IsNetWorkError = true;
       } else {
@@ -300,7 +308,8 @@ class _SplashScreenState extends State<LoginScreen> {
         print("Response Token: ${resToken.toString()}");
       }
     });
-    await new LoginFuture().apiRequestLogin(resToken, mapBody).then((onValue) async {
+    //await new LoginFuture().apiRequestLogin(resToken, mapBody).then((onValue) async {
+    await new LoginFutureProduction().apiRequestProductionLogin(resToken, mapBody).then((onValue) async {
       if (onValue == null) {
         IsNetWorkError = true;
       } else {
@@ -310,7 +319,8 @@ class _SplashScreenState extends State<LoginScreen> {
     });
     if (resID != null) {
       Map mapMasStaffBody = {"TEXT_SEARCH": resID, "STAFF_ID": ""};
-      await new LoginFuture().apiRequestMasStaffgetByCon(resToken, mapMasStaffBody).then((onValue) async {
+      //await new LoginFuture().apiRequestMasStaffgetByCon(resToken, mapMasStaffBody).then((onValue) async {
+      await new LoginFutureProduction().apiRequestProductionMasStaffgetByCon(resToken, mapMasStaffBody).then((onValue) async {
         if (onValue == null) {
           IsNetWorkError = true;
         } else {
@@ -321,24 +331,24 @@ class _SplashScreenState extends State<LoginScreen> {
       });
     }
 
-    // if (!IsNetWorkError) {
-    //   Map map_title = {"TEXT_SEARCH": ""};
-    //   await new ArrestFutureMaster().apiRequestMasTitlegetByCon(map_title).then((onValue) {
-    //     itemsTitle = onValue;
-    //   });
-    //   Map map_office = {"TEXT_SEARCH": "", "STAFF_ID": ""};
-    //   await new ArrestFutureMaster().apiRequestMasOfficegetByCon(map_office).then((onValue) {
-    //     itemsOffice = onValue;
-    //   });
-    //   //Unit
-    //   Map map_unit = {"TEXT_SEARCH": ""};
-    //   await new ArrestFutureMaster().apiRequestMasProductUnitgetByKeyword(map_unit).then((onValue) {
-    //     itemsMasProductUnit = onValue;
-    //   });
-    //   await new ArrestFutureMaster().apiRequestMasWarehousegetByKeyword(map_unit).then((onValue) {
-    //     itemsMasWarehouse = onValue;
-    //   });
-    // }
+    if (!IsNetWorkError) {
+      Map map_title = {"TEXT_SEARCH": ""};
+      await new ArrestFutureMaster().apiRequestMasTitlegetByCon(map_title).then((onValue) {
+        itemsTitle = onValue;
+      });
+      Map map_office = {"TEXT_SEARCH": "", "STAFF_ID": ""};
+      await new ArrestFutureMaster().apiRequestMasOfficegetByCon(map_office).then((onValue) {
+        itemsOffice = onValue;
+      });
+      //Unit
+      Map map_unit = {"TEXT_SEARCH": ""};
+      await new ArrestFutureMaster().apiRequestMasProductUnitgetByKeyword(map_unit).then((onValue) {
+        itemsMasProductUnit = onValue;
+      });
+      await new ArrestFutureMaster().apiRequestMasWarehousegetByKeyword(map_unit).then((onValue) {
+        itemsMasWarehouse = onValue;
+      });
+    }
     setState(() {});
     return true;
   }
@@ -539,10 +549,10 @@ class _SplashScreenState extends State<LoginScreen> {
                               'งานจัดเก็บและบริหารของกลางในคดี',
                               style: textStyleTitle,
                             ),
-                            Text(
-                              'ระบบทดสอบ (UAT)',
-                              style: TextStyle(fontSize: ScreenUtil().setSp(52.0), color: Colors.yellow, fontFamily: _fontStyles.FontFamily, fontWeight: FontWeight.w800),
-                            ),
+                            // Text(
+                            //   'ระบบทดสอบ (UAT)',
+                            //   style: TextStyle(fontSize: ScreenUtil().setSp(52.0), color: Colors.yellow, fontFamily: _fontStyles.FontFamily, fontWeight: FontWeight.w800),
+                            // ),
                           ],
                         ))),
                     Padding(
@@ -682,14 +692,14 @@ class _SplashScreenState extends State<LoginScreen> {
   }
 }
 
-class MyCustomRoute<T> extends MaterialPageRoute<T> {
-  MyCustomRoute({WidgetBuilder builder, RouteSettings settings}) : super(builder: builder, settings: settings);
+// class MyCustomRoute<T> extends MaterialPageRoute<T> {
+//   MyCustomRoute({WidgetBuilder builder, RouteSettings settings}) : super(builder: builder, settings: settings);
 
-  @override
-  Widget buildTransitions(BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation, Widget child) {
-    if (settings.isInitialRoute) return child;
-    // Fades between routes. (If you don't want any animation,
-    // just return child.)
-    return new FadeTransition(opacity: animation, child: child);
-  }
-}
+//   @override
+//   Widget buildTransitions(BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation, Widget child) {
+//     if (settings.isInitialRoute) return child;
+//     // Fades between routes. (If you don't want any animation,
+//     // just return child.)
+//     return new FadeTransition(opacity: animation, child: child);
+//   }
+// }
