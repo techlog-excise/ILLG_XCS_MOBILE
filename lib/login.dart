@@ -255,7 +255,7 @@ class _SplashScreenState extends State<LoginScreen> {
           //user && pass incorrect!!
           new VerifyDialog(context, "Username หรือ Password ไม่ถูกต้อง");
         } else {
-          // if (_information != null && itemsTitle != null && itemsOffice != null && itemsMasProductUnit != null && itemsMasProductSize != null && itemsMasWarehouse != null) {
+          //if (_information != null && itemsTitle != null && itemsOffice != null && itemsMasProductUnit != null && itemsMasProductSize != null && itemsMasWarehouse != null) {
           if (_information != null) {
             sharedPreferences = await SharedPreferences.getInstance();
             setState(() {
@@ -271,7 +271,7 @@ class _SplashScreenState extends State<LoginScreen> {
               MaterialPageRoute(
                   builder: (context) => HomeScreen(
                         ItemsData: _information,
-                        // itemsLoginStaff: _information,
+                        //itemsLoginStaff: _information,
                         itemsTitle: itemsTitle,
                         itemsOffice: itemsOffice,
                         itemsMasProductUnit: itemsMasProductUnit,
@@ -299,8 +299,8 @@ class _SplashScreenState extends State<LoginScreen> {
     print("mapBody: ${mapBody}");
     String resID = "";
 
-    //await new LoginFuture().apiRequestOAG(bodyText).then((onValue) async {
-    await new LoginFutureProduction().apiRequestProduction().then((onValue) async {
+    await new LoginFuture().apiRequestOAG(bodyText).then((onValue) async {
+      //await new LoginFutureProduction().apiRequestProduction().then((onValue) async {
       if (onValue == null) {
         IsNetWorkError = true;
       } else {
@@ -308,8 +308,8 @@ class _SplashScreenState extends State<LoginScreen> {
         print("Response Token: ${resToken.toString()}");
       }
     });
-    //await new LoginFuture().apiRequestLogin(resToken, mapBody).then((onValue) async {
-    await new LoginFutureProduction().apiRequestProductionLogin(resToken, mapBody).then((onValue) async {
+    await new LoginFuture().apiRequestLogin(resToken, mapBody).then((onValue) async {
+      //await new LoginFutureProduction().apiRequestProductionLogin(resToken, mapBody).then((onValue) async {
       if (onValue == null) {
         IsNetWorkError = true;
       } else {
@@ -319,36 +319,36 @@ class _SplashScreenState extends State<LoginScreen> {
     });
     if (resID != null) {
       Map mapMasStaffBody = {"TEXT_SEARCH": resID, "STAFF_ID": ""};
-      //await new LoginFuture().apiRequestMasStaffgetByCon(resToken, mapMasStaffBody).then((onValue) async {
-      await new LoginFutureProduction().apiRequestProductionMasStaffgetByCon(resToken, mapMasStaffBody).then((onValue) async {
+      await new LoginFuture().apiRequestMasStaffgetByCon(resToken, mapMasStaffBody).then((onValue) async {
+        //await new LoginFutureProduction().apiRequestProductionMasStaffgetByCon(resToken, mapMasStaffBody).then((onValue) async {
         if (onValue == null) {
           IsNetWorkError = true;
         } else {
           _information = onValue.RESPONSE_DATA.first;
-          print("Response: ${onValue.RESPONSE_DATA.first.STAFF_ID}");
+          //print("Response: ${onValue.RESPONSE_DATA.first.STAFF_ID}");
           print("Response STAFF_ID: ${_information.STAFF_ID}");
         }
       });
     }
 
-    if (!IsNetWorkError) {
-      Map map_title = {"TEXT_SEARCH": ""};
-      await new ArrestFutureMaster().apiRequestMasTitlegetByCon(map_title).then((onValue) {
-        itemsTitle = onValue;
-      });
-      Map map_office = {"TEXT_SEARCH": "", "STAFF_ID": ""};
-      await new ArrestFutureMaster().apiRequestMasOfficegetByCon(map_office).then((onValue) {
-        itemsOffice = onValue;
-      });
-      //Unit
-      Map map_unit = {"TEXT_SEARCH": ""};
-      await new ArrestFutureMaster().apiRequestMasProductUnitgetByKeyword(map_unit).then((onValue) {
-        itemsMasProductUnit = onValue;
-      });
-      await new ArrestFutureMaster().apiRequestMasWarehousegetByKeyword(map_unit).then((onValue) {
-        itemsMasWarehouse = onValue;
-      });
-    }
+    // if (!IsNetWorkError) {
+    //   Map map_title = {"TEXT_SEARCH": ""};
+    //   await new ArrestFutureMaster().apiRequestMasTitlegetByCon(map_title).then((onValue) {
+    //     itemsTitle = onValue;
+    //   });
+    //   Map map_office = {"TEXT_SEARCH": "", "STAFF_ID": ""};
+    //   await new ArrestFutureMaster().apiRequestMasOfficegetByCon(map_office).then((onValue) {
+    //     itemsOffice = onValue;
+    //   });
+    //   //Unit
+    //   Map map_unit = {"TEXT_SEARCH": ""};
+    //   await new ArrestFutureMaster().apiRequestMasProductUnitgetByKeyword(map_unit).then((onValue) {
+    //     itemsMasProductUnit = onValue;
+    //   });
+    //   await new ArrestFutureMaster().apiRequestMasWarehousegetByKeyword(map_unit).then((onValue) {
+    //     itemsMasWarehouse = onValue;
+    //   });
+    // }
     setState(() {});
     return true;
   }

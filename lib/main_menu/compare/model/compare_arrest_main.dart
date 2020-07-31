@@ -24,9 +24,9 @@ class ItemsCompareArrestMain {
   String ACCUSER_OPERATION_OFFICE_SHORT_NAME;
   String GUILTBASE_NAME;
 
-   String FINE;
+  String FINE;
   // double FINE;
-  
+
   int FINE_TYPE;
   int IS_PROVE;
   int IS_COMPARE;
@@ -42,7 +42,7 @@ class ItemsCompareArrestMain {
   String FINE_MAX;
 
   String PENALTY_DESC;
-   int LAWSUIT_NO;
+  int LAWSUIT_NO;
   // dynamic LAWSUIT_NO;
   String LAWSUIT_NO_YEAR;
   String LAWSUIT_DATE;
@@ -50,8 +50,8 @@ class ItemsCompareArrestMain {
   String PROVE_NO_YEAR;
   int PROVE_IS_OUTSIDE;
   String RECEIVE_DOC_DATE;
-  List<ItemsCompareListIndicmentProduct> CompareArrestIndictmentProduct;
-  List<ItemsCompareListProveProduct> CompareProveProduct;
+  //List<ItemsCompareListIndicmentProduct> CompareArrestIndictmentProduct;
+  //List<ItemsCompareListProveProduct> CompareProveProduct;
   List<ItemsCompareListIndicmentDetail> CompareArrestIndictmentDetail;
   List<ItemsCompareGuiltbaseFine> CompareGuiltbaseFine;
 
@@ -83,12 +83,10 @@ class ItemsCompareArrestMain {
     this.SUBSECTION_DESC,
     this.SUBSECTION_ID,
     this.SECTION_NAME,
-
     this.FINE_RATE_MIN,
     this.FINE_RATE_MAX,
     this.FINE_MIN,
     this.FINE_MAX,
-
     this.PENALTY_DESC,
     this.LAWSUIT_NO,
     this.LAWSUIT_NO_YEAR,
@@ -97,15 +95,15 @@ class ItemsCompareArrestMain {
     this.PROVE_NO_YEAR,
     this.PROVE_IS_OUTSIDE,
     this.RECEIVE_DOC_DATE,
-    this.CompareArrestIndictmentProduct,
-    this.CompareProveProduct,
+    //this.CompareArrestIndictmentProduct,
+    //this.CompareProveProduct,
     this.CompareArrestIndictmentDetail,
     this.CompareGuiltbaseFine,
   });
 
   factory ItemsCompareArrestMain.fromJson(Map<String, dynamic> json) {
     return ItemsCompareArrestMain(
-       LAWSUIT_IS_OUTSIDE :json['LAWSUIT_IS_OUTSIDE'],
+      LAWSUIT_IS_OUTSIDE: json['LAWSUIT_IS_OUTSIDE'],
       SECTION_ID: json['SECTION_ID'],
       LAWSUIT_ID: json['LAWSUIT_ID'],
       INDICTMENT_ID: json['INDICTMENT_ID'],
@@ -135,7 +133,7 @@ class ItemsCompareArrestMain {
 
       FINE_RATE_MIN: json['FINE_RATE_MIN'],
       FINE_RATE_MAX: json['FINE_RATE_MAX'],
-      FINE_MIN:  json['FINE_MIN'],
+      FINE_MIN: json['FINE_MIN'],
       FINE_MAX: json['FINE_MAX'],
 
       PENALTY_DESC: json['PENALTY_DESC'],
@@ -146,8 +144,8 @@ class ItemsCompareArrestMain {
       PROVE_NO_YEAR: json['PROVE_NO_YEAR'],
       PROVE_IS_OUTSIDE: json['PROVE_IS_OUTSIDE'],
       RECEIVE_DOC_DATE: json['RECEIVE_DOC_DATE'],
-      CompareArrestIndictmentProduct: List.from(json['CompareArrestIndictmentProduct'].map((m) => ItemsCompareListIndicmentProduct.fromJson(m))),
-      CompareProveProduct: List.from(json['CompareProveProduct'].map((m) => ItemsCompareListProveProduct.fromJson(m))),
+      //CompareArrestIndictmentProduct: List.from(json['CompareArrestIndictmentProduct'].map((m) => ItemsCompareListIndicmentProduct.fromJson(m))),
+      //CompareProveProduct: List.from(json['CompareProveProduct'].map((m) => ItemsCompareListProveProduct.fromJson(m))),
       CompareArrestIndictmentDetail: List.from(json['CompareArrestIndictmentDetail'].map((m) => ItemsCompareListIndicmentDetail.fromJson(m))),
       CompareGuiltbaseFine: List.from(json['CompareGuiltbaseFine'].map((m) => ItemsCompareGuiltbaseFine.fromJson(m))),
     );

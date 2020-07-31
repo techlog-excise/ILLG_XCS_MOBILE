@@ -785,12 +785,12 @@ class _FragmentState extends State<CompareMainScreenFragment> with TickerProvide
                           }
                         }
                       });
-                      _compareArrestMain.CompareArrestIndictmentDetail[index].FINE_TOTAL = fine_value;
+                      //_compareArrestMain.CompareArrestIndictmentDetail[index].FINE_TOTAL = fine_value;
                     } else if (_compareArrestMain.FINE_TYPE == 2) {
                       double volumn = 0;
-                      _compareArrestMain.CompareProveProduct.forEach((item) {
-                        volumn += item.VOLUMN;
-                      });
+                      // _compareArrestMain.CompareProveProduct.forEach((item) {
+                      //   volumn += item.VOLUMN;
+                      // });
                       if (volumn != 0) {
                         _compareArrestMain.CompareGuiltbaseFine.forEach((item) {
                           if (_compareArrestMain.SUBSECTION_RULE_ID == item.SUBSECTION_RULE_ID) {
@@ -815,7 +815,7 @@ class _FragmentState extends State<CompareMainScreenFragment> with TickerProvide
                           }
                         });
                       }
-                      _compareArrestMain.CompareArrestIndictmentDetail[index].FINE_TOTAL = fine_value;
+                      //_compareArrestMain.CompareArrestIndictmentDetail[index].FINE_TOTAL = fine_value;
                     } else {
                       _compareArrestMain.CompareGuiltbaseFine.forEach((item) {
                         if (_compareArrestMain.SUBSECTION_RULE_ID == item.SUBSECTION_RULE_ID) {
@@ -823,7 +823,7 @@ class _FragmentState extends State<CompareMainScreenFragment> with TickerProvide
                           itemGuiltbaseFine = item;
                         }
                       });
-                      _compareArrestMain.CompareArrestIndictmentDetail[index].FINE_TOTAL = fine_value;
+                      //_compareArrestMain.CompareArrestIndictmentDetail[index].FINE_TOTAL = fine_value;
                     }
                   } else {
                     _compareArrestMain.CompareGuiltbaseFine.forEach((item) {
@@ -833,21 +833,21 @@ class _FragmentState extends State<CompareMainScreenFragment> with TickerProvide
                     });
                     fine_value = 0;
                     List<double> temp = [];
-                    if (_compareArrestMain.CompareProveProduct.length == 0) {
-                      temp.add(0);
-                    } else {
-                      _compareArrestMain.CompareProveProduct.forEach((pro) {
-                        temp.add(itemGuiltbaseFine.FINE_RATE * pro.VAT);
-                        //fine_value += itemGuiltbaseFine.FINE_RATE*_compareArrestMain.CompareProveProduct[index].VAT;
-                      });
-                    }
+                    // if (_compareArrestMain.CompareProveProduct.length == 0) {
+                    //   temp.add(0);
+                    // } else {
+                    //   _compareArrestMain.CompareProveProduct.forEach((pro) {
+                    //     temp.add(itemGuiltbaseFine.FINE_RATE * pro.VAT);
+                    //     //fine_value += itemGuiltbaseFine.FINE_RATE*_compareArrestMain.CompareProveProduct[index].VAT;
+                    //   });
+                    // }
                     /*itemMain.CompareMapping.forEach((item){
                           item.CompareDetail.forEach((item){
                             temp.add(itemGuiltbaseFine.FINE_RATE*item.PAYMENT_FINE);
                           });
                         });*/
                     fine_value = temp.reduce((a, b) => a + b);
-                    _compareArrestMain.CompareArrestIndictmentDetail[index].FINE_TOTAL = fine_value;
+                    //_compareArrestMain.CompareArrestIndictmentDetail[index].FINE_TOTAL = fine_value;
                   }
 
                   bool IsCompare = false;
@@ -951,7 +951,8 @@ class _FragmentState extends State<CompareMainScreenFragment> with TickerProvide
                                                     itemsCompareDetail
                                                         .PAYMENT_FINE)
                                                     .toString(),*/
-                                                formatter.format(_compareArrestMain.CompareArrestIndictmentDetail[index].FINE_TOTAL).toString(),
+                                                "ทดสอบ",
+                                                //formatter.format(_compareArrestMain.CompareArrestIndictmentDetail[index].FINE_TOTAL).toString(),
                                                 style: textStyleData,
                                               ),
                                             ),
@@ -970,7 +971,8 @@ class _FragmentState extends State<CompareMainScreenFragment> with TickerProvide
                                             Padding(
                                               padding: paddingData,
                                               child: Text(
-                                                formatter.format(_compareArrestMain.CompareArrestIndictmentDetail[index].FINE_TOTAL).toString(),
+                                                "ทดสอบ",
+                                                //formatter.format(_compareArrestMain.CompareArrestIndictmentDetail[index].FINE_TOTAL).toString(),
                                                 style: textStyleData,
                                               ),
                                             ),
@@ -1581,62 +1583,62 @@ class _FragmentState extends State<CompareMainScreenFragment> with TickerProvide
                 style: textStyleLabel,
               ),
             ),
-            _compareArrestMain.CompareArrestIndictmentProduct.length == 0
-                ? Container(
-                    padding: paddingData,
-                    child: Text(
-                      "ไม่มีของกลาง",
-                      style: textStyleData,
-                    ),
-                  )
-                : Container(
-                    padding: paddingLabel,
-                    child: ListView.builder(
-                        physics: NeverScrollableScrollPhysics(),
-                        // new
-                        itemCount: _compareArrestMain.CompareArrestIndictmentProduct.length,
-                        scrollDirection: Axis.vertical,
-                        shrinkWrap: true,
-                        itemBuilder: (BuildContext context, int index) {
-                          return Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              InkWell(
-                                onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => TabScreenArrest6Product(
-                                              ItemsProduct: _compareArrestMain.CompareArrestIndictmentProduct[index],
-                                              IsComplete: true,
-                                            )),
-                                  );
-                                },
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: <Widget>[
-                                    Expanded(
-                                      child: Container(
-                                        padding: paddingData,
-                                        child: Text(
-                                          (index + 1).toString() + ". " + new SetProductName(_compareArrestMain.CompareArrestIndictmentProduct[index]).PRODUCT_NAME,
-                                          style: textStyleData,
-                                        ),
-                                      ),
-                                    ),
-                                    Icon(Icons.navigate_next),
-                                  ],
-                                ),
-                              ),
-                              Container(
-                                height: 1.0,
-                                color: Colors.grey[300],
-                              ),
-                            ],
-                          );
-                        }),
-                  ),
+            // _compareArrestMain.CompareArrestIndictmentProduct.length == 0
+            //     ? Container(
+            //         padding: paddingData,
+            //         child: Text(
+            //           "ไม่มีของกลาง",
+            //           style: textStyleData,
+            //         ),
+            //       )
+            //     : Container(
+            //         padding: paddingLabel,
+            //         child: ListView.builder(
+            //             physics: NeverScrollableScrollPhysics(),
+            //             // new
+            //             itemCount: _compareArrestMain.CompareArrestIndictmentProduct.length,
+            //             scrollDirection: Axis.vertical,
+            //             shrinkWrap: true,
+            //             itemBuilder: (BuildContext context, int index) {
+            //               return Column(
+            //                 crossAxisAlignment: CrossAxisAlignment.start,
+            //                 mainAxisAlignment: MainAxisAlignment.center,
+            //                 children: <Widget>[
+            //                   InkWell(
+            //                     onTap: () {
+            //                       Navigator.push(
+            //                         context,
+            //                         MaterialPageRoute(
+            //                             builder: (context) => TabScreenArrest6Product(
+            //                                   ItemsProduct: _compareArrestMain.CompareArrestIndictmentProduct[index],
+            //                                   IsComplete: true,
+            //                                 )),
+            //                       );
+            //                     },
+            //                     child: Row(
+            //                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //                       children: <Widget>[
+            //                         Expanded(
+            //                           child: Container(
+            //                             padding: paddingData,
+            //                             child: Text(
+            //                               (index + 1).toString() + ". " + new SetProductName(_compareArrestMain.CompareArrestIndictmentProduct[index]).PRODUCT_NAME,
+            //                               style: textStyleData,
+            //                             ),
+            //                           ),
+            //                         ),
+            //                         Icon(Icons.navigate_next),
+            //                       ],
+            //                     ),
+            //                   ),
+            //                   Container(
+            //                     height: 1.0,
+            //                     color: Colors.grey[300],
+            //                   ),
+            //                 ],
+            //               );
+            //             }),
+            //       ),
           ],
         ),
       ],

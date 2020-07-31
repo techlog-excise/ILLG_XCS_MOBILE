@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
-import 'dart:io' show Platform;
+//import 'dart:io' show Platform;
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -268,18 +268,18 @@ class _FragmentState extends State<CompareDetailScreenFragment> with TickerProvi
       }
     });
     print("_listIndicmentDetail : " + _listIndicmentDetail.length.toString());
-    _itemsCompareArrestMain.CompareProveProduct.forEach((item) {
-      item.Controller.TaxValue = widget.itemsCompareGuiltbaseFine.FINE_RATE;
-      item.Controller.FineValue = item.VAT;
-      double fine_total = 0;
-      if (_itemsCompareArrestMain.FINE_TYPE == 0 || _itemsCompareArrestMain.FINE_TYPE == 1 || _itemsCompareArrestMain.FINE_TYPE == 2) {
-        fine_total = widget.itemsCompareGuiltbaseFine.FINE_AMOUNT;
-      } else {
-        fine_total = item.VAT * widget.itemsCompareGuiltbaseFine.FINE_RATE;
-      }
-      item.Controller.Payment = fine_total;
-      item.Controller.Total = fine_total;
-    });
+    // _itemsCompareArrestMain.CompareProveProduct.forEach((item) {
+    //   item.Controller.TaxValue = widget.itemsCompareGuiltbaseFine.FINE_RATE;
+    //   item.Controller.FineValue = item.VAT;
+    //   double fine_total = 0;
+    //   if (_itemsCompareArrestMain.FINE_TYPE == 0 || _itemsCompareArrestMain.FINE_TYPE == 1 || _itemsCompareArrestMain.FINE_TYPE == 2) {
+    //     fine_total = widget.itemsCompareGuiltbaseFine.FINE_AMOUNT;
+    //   } else {
+    //     fine_total = item.VAT * widget.itemsCompareGuiltbaseFine.FINE_RATE;
+    //   }
+    //   item.Controller.Payment = fine_total;
+    //   item.Controller.Total = fine_total;
+    // });
 
     if (widget.IsHaveProve) {
       _itemsCompareMain = widget.itemsCompareMain;
@@ -331,7 +331,7 @@ class _FragmentState extends State<CompareDetailScreenFragment> with TickerProvi
       _arrItemsImageFile = items;
     }
 
-    FINE_TOTAL = _indicmentDetail.FINE_TOTAL;
+    //FINE_TOTAL = _indicmentDetail.FINE_TOTAL;
   }
 
   @override
@@ -654,8 +654,8 @@ class _FragmentState extends State<CompareDetailScreenFragment> with TickerProvi
 
   //ไปที่หน้ารายละเอียดค่าปรับ
   _navigate(BuildContext context) async {
-    _indicmentDetail.FINE_TOTAL = FINE_TOTAL;
-    print("Goo " + _indicmentDetail.FINE_TOTAL.toString());
+    //_indicmentDetail.FINE_TOTAL = FINE_TOTAL;
+    //print("Goo " + _indicmentDetail.FINE_TOTAL.toString());
     final result = await Navigator.push(
       context,
       MaterialPageRoute(
@@ -673,8 +673,8 @@ class _FragmentState extends State<CompareDetailScreenFragment> with TickerProvi
       setState(() {
         ItemsCompareMapFineDetail itemsCompareMapFineDetail = result;
         _indicmentDetail = itemsCompareMapFineDetail.itemsCompareListIndicmentDetail;
-        FINE_TOTAL = _indicmentDetail.FINE_TOTAL;
-        print("Back " + _indicmentDetail.FINE_TOTAL.toString());
+        //FINE_TOTAL = _indicmentDetail.FINE_TOTAL;
+        //print("Back " + _indicmentDetail.FINE_TOTAL.toString());
         print("Back " + FINE_TOTAL.toString());
 
         if (itemsCompareMapFineDetail.itemsListEvidenceGetStaff != null) {
@@ -2503,45 +2503,45 @@ class _FragmentState extends State<CompareDetailScreenFragment> with TickerProvi
           //กรณีสร้างเปรียบปรับคนแรก
 
           List<Map> map_compare_detail_fine = [];
-          _itemsCompareArrestMain.CompareProveProduct.forEach((item) {
-            map_compare_detail_fine.add({
-              "FINE_ID": "",
-              "COMPARE_DETAIL_ID": "",
-              "PRODUCT_ID": item.PRODUCT_ID,
-              "FINE_RATE": item.Controller.FineValue,
-              "VAT": item.VAT,
-              "FINE": "",
-              "NET_FINE": item.Controller.Payment,
-              "OLD_PAYMENT_FINE": "",
-              "PAYMENT_FINE": item.Controller.Total,
-              "DIFFERENCE_PAYMENT_FINE": "",
-              "TREASURY_RATE": (Isaward && IsBribe
-                      ? widget.itemsListDivisionRate.TREASURY_RATE + widget.itemsListDivisionRate.REWARD_RATE + widget.itemsListDivisionRate.BRIBE_RATE
-                      : (Isaward ? widget.itemsListDivisionRate.TREASURY_RATE + widget.itemsListDivisionRate.REWARD_RATE : (IsBribe ? widget.itemsListDivisionRate.TREASURY_RATE + widget.itemsListDivisionRate.BRIBE_RATE : widget.itemsListDivisionRate.TREASURY_RATE)) * item.Controller.Total) /
-                  100,
-              "BRIBE_RATE": (IsBribe ? widget.itemsListDivisionRate.BRIBE_RATE - widget.itemsListDivisionRate.BRIBE_RATE : widget.itemsListDivisionRate.BRIBE_RATE * item.Controller.Total) / 100,
-              "REWARD_RATE": (Isaward ? widget.itemsListDivisionRate.REWARD_RATE - widget.itemsListDivisionRate.REWARD_RATE : widget.itemsListDivisionRate.REWARD_RATE * item.Controller.Total) / 100,
-              "PRODUCT_GROUP_NAME": item.PRODUCT_GROUP_NAME,
-              "PRODUCT_CATEGORY_NAME": item.PRODUCT_CATEGORY_NAME,
-              "PRODUCT_TYPE_NAME": item.PRODUCT_TYPE_NAME,
-              "PRODUCT_SUBTYPE_NAME": item.PRODUCT_SUBTYPE_NAME,
-              "PRODUCT_SUBSETTYPE_NAME": "",
-              "PRODUCT_BRAND_NAME_TH": item.PRODUCT_BRAND_NAME_TH,
-              "PRODUCT_BRAND_NAME_EN": item.PRODUCT_BRAND_NAME_EN,
-              "PRODUCT_SUBBRAND_NAME_TH": item.PRODUCT_SUBBRAND_NAME_TH,
-              "PRODUCT_SUBBRAND_NAME_EN": item.PRODUCT_SUBBRAND_NAME_EN,
-              "PRODUCT_MODEL_NAME_TH": item.PRODUCT_MODEL_NAME_TH,
-              "PRODUCT_MODEL_NAME_EN": item.PRODUCT_MODEL_NAME_EN,
-              "SIZES": item.SIZES,
-              "SIZES_UNIT": item.SIZES_UNIT,
-              "SIZES_UNIT": item.SIZES_UNIT,
-              "QUANTITY": item.QUANTITY,
-              "QUANTITY_UNIT": item.QUANTITY_UNIT,
-              "VOLUMN": item.VOLUMN,
-              "VOLUMN_UNIT": item.VOLUMN_UNIT,
-              "IS_ACTIVE": 1
-            });
-          });
+          // _itemsCompareArrestMain.CompareProveProduct.forEach((item) {
+          //   map_compare_detail_fine.add({
+          //     "FINE_ID": "",
+          //     "COMPARE_DETAIL_ID": "",
+          //     "PRODUCT_ID": item.PRODUCT_ID,
+          //     "FINE_RATE": item.Controller.FineValue,
+          //     "VAT": item.VAT,
+          //     "FINE": "",
+          //     "NET_FINE": item.Controller.Payment,
+          //     "OLD_PAYMENT_FINE": "",
+          //     "PAYMENT_FINE": item.Controller.Total,
+          //     "DIFFERENCE_PAYMENT_FINE": "",
+          //     "TREASURY_RATE": (Isaward && IsBribe
+          //             ? widget.itemsListDivisionRate.TREASURY_RATE + widget.itemsListDivisionRate.REWARD_RATE + widget.itemsListDivisionRate.BRIBE_RATE
+          //             : (Isaward ? widget.itemsListDivisionRate.TREASURY_RATE + widget.itemsListDivisionRate.REWARD_RATE : (IsBribe ? widget.itemsListDivisionRate.TREASURY_RATE + widget.itemsListDivisionRate.BRIBE_RATE : widget.itemsListDivisionRate.TREASURY_RATE)) * item.Controller.Total) /
+          //         100,
+          //     "BRIBE_RATE": (IsBribe ? widget.itemsListDivisionRate.BRIBE_RATE - widget.itemsListDivisionRate.BRIBE_RATE : widget.itemsListDivisionRate.BRIBE_RATE * item.Controller.Total) / 100,
+          //     "REWARD_RATE": (Isaward ? widget.itemsListDivisionRate.REWARD_RATE - widget.itemsListDivisionRate.REWARD_RATE : widget.itemsListDivisionRate.REWARD_RATE * item.Controller.Total) / 100,
+          //     "PRODUCT_GROUP_NAME": item.PRODUCT_GROUP_NAME,
+          //     "PRODUCT_CATEGORY_NAME": item.PRODUCT_CATEGORY_NAME,
+          //     "PRODUCT_TYPE_NAME": item.PRODUCT_TYPE_NAME,
+          //     "PRODUCT_SUBTYPE_NAME": item.PRODUCT_SUBTYPE_NAME,
+          //     "PRODUCT_SUBSETTYPE_NAME": "",
+          //     "PRODUCT_BRAND_NAME_TH": item.PRODUCT_BRAND_NAME_TH,
+          //     "PRODUCT_BRAND_NAME_EN": item.PRODUCT_BRAND_NAME_EN,
+          //     "PRODUCT_SUBBRAND_NAME_TH": item.PRODUCT_SUBBRAND_NAME_TH,
+          //     "PRODUCT_SUBBRAND_NAME_EN": item.PRODUCT_SUBBRAND_NAME_EN,
+          //     "PRODUCT_MODEL_NAME_TH": item.PRODUCT_MODEL_NAME_TH,
+          //     "PRODUCT_MODEL_NAME_EN": item.PRODUCT_MODEL_NAME_EN,
+          //     "SIZES": item.SIZES,
+          //     "SIZES_UNIT": item.SIZES_UNIT,
+          //     "SIZES_UNIT": item.SIZES_UNIT,
+          //     "QUANTITY": item.QUANTITY,
+          //     "QUANTITY_UNIT": item.QUANTITY_UNIT,
+          //     "VOLUMN": item.VOLUMN,
+          //     "VOLUMN_UNIT": item.VOLUMN_UNIT,
+          //     "IS_ACTIVE": 1
+          //   });
+          // });
 
           List<Map> map_compare_payment_det = [];
           widget.itemsCompareNotice.forEach((f) {
@@ -2676,50 +2676,50 @@ class _FragmentState extends State<CompareDetailScreenFragment> with TickerProvi
           List<Map> compare_detail_fine = [];
           _itemsCompareMain.CompareMapping.forEach((item) {
             if (item.INDICTMENT_DETAIL_ID == _indicmentDetail.INDICTMENT_DETAIL_ID) {
-              _itemsCompareArrestMain.CompareProveProduct.forEach((item) {
-                compare_detail_fine.add({
-                  "FINE_ID": "",
-                  "COMPARE_DETAIL_ID": "",
-                  "PRODUCT_ID": item.PRODUCT_ID,
-                  "FINE_RATE": item.Controller.FineValue,
-                  "VAT": item.VAT,
-                  "FINE": "",
-                  "NET_FINE": item.Controller.Payment,
-                  "OLD_PAYMENT_FINE": "",
-                  "PAYMENT_FINE": item.Controller.Total,
-                  "DIFFERENCE_PAYMENT_FINE": "",
-                  /*"TREASURY_MONEY": (widget.itemsListDivisionRate
-                          .TREASURY_RATE * item.Controller.Total) / 100,
-                      "BRIBE_MONEY": (widget.itemsListDivisionRate.BRIBE_RATE *
-                          item.Controller.Total) / 100,
-                      "REWARD_MONEY": (widget.itemsListDivisionRate.REWARD_RATE *
-                          item.Controller.Total) / 100,*/
-                  "TREASURY_RATE": (Isaward && IsBribe
-                          ? widget.itemsListDivisionRate.TREASURY_RATE + widget.itemsListDivisionRate.REWARD_RATE + widget.itemsListDivisionRate.BRIBE_RATE
-                          : (Isaward ? widget.itemsListDivisionRate.TREASURY_RATE + widget.itemsListDivisionRate.REWARD_RATE : (IsBribe ? widget.itemsListDivisionRate.TREASURY_RATE + widget.itemsListDivisionRate.BRIBE_RATE : widget.itemsListDivisionRate.TREASURY_RATE)) * item.Controller.Total) /
-                      100,
-                  "BRIBE_RATE": (IsBribe ? widget.itemsListDivisionRate.BRIBE_RATE - widget.itemsListDivisionRate.BRIBE_RATE : widget.itemsListDivisionRate.BRIBE_RATE * item.Controller.Total) / 100,
-                  "REWARD_RATE": (Isaward ? widget.itemsListDivisionRate.REWARD_RATE - widget.itemsListDivisionRate.REWARD_RATE : widget.itemsListDivisionRate.REWARD_RATE * item.Controller.Total) / 100,
-                  "PRODUCT_GROUP_NAME": item.PRODUCT_GROUP_NAME,
-                  "PRODUCT_CATEGORY_NAME": item.PRODUCT_CATEGORY_NAME,
-                  "PRODUCT_TYPE_NAME": item.PRODUCT_TYPE_NAME,
-                  "PRODUCT_SUBTYPE_NAME": item.PRODUCT_SUBTYPE_NAME,
-                  "PRODUCT_SUBSETTYPE_NAME": "",
-                  "PRODUCT_BRAND_NAME_TH": item.PRODUCT_BRAND_NAME_TH,
-                  "PRODUCT_BRAND_NAME_EN": item.PRODUCT_BRAND_NAME_EN,
-                  "PRODUCT_SUBBRAND_NAME_TH": item.PRODUCT_SUBBRAND_NAME_TH,
-                  "PRODUCT_SUBBRAND_NAME_EN": item.PRODUCT_SUBBRAND_NAME_EN,
-                  "PRODUCT_MODEL_NAME_TH": item.PRODUCT_MODEL_NAME_TH,
-                  "PRODUCT_MODEL_NAME_EN": item.PRODUCT_MODEL_NAME_EN,
-                  "SIZES": item.SIZES,
-                  "SIZES_UNIT": item.SIZES_UNIT,
-                  "QUANTITY": item.QUANTITY,
-                  "QUANTITY_UNIT": item.QUANTITY_UNIT,
-                  "VOLUMN": item.VOLUMN,
-                  "VOLUMN_UNIT": item.VOLUMN_UNIT,
-                  "IS_ACTIVE": 1
-                });
-              });
+              // _itemsCompareArrestMain.CompareProveProduct.forEach((item) {
+              //   compare_detail_fine.add({
+              //     "FINE_ID": "",
+              //     "COMPARE_DETAIL_ID": "",
+              //     "PRODUCT_ID": item.PRODUCT_ID,
+              //     "FINE_RATE": item.Controller.FineValue,
+              //     "VAT": item.VAT,
+              //     "FINE": "",
+              //     "NET_FINE": item.Controller.Payment,
+              //     "OLD_PAYMENT_FINE": "",
+              //     "PAYMENT_FINE": item.Controller.Total,
+              //     "DIFFERENCE_PAYMENT_FINE": "",
+              //     /*"TREASURY_MONEY": (widget.itemsListDivisionRate
+              //             .TREASURY_RATE * item.Controller.Total) / 100,
+              //         "BRIBE_MONEY": (widget.itemsListDivisionRate.BRIBE_RATE *
+              //             item.Controller.Total) / 100,
+              //         "REWARD_MONEY": (widget.itemsListDivisionRate.REWARD_RATE *
+              //             item.Controller.Total) / 100,*/
+              //     "TREASURY_RATE": (Isaward && IsBribe
+              //             ? widget.itemsListDivisionRate.TREASURY_RATE + widget.itemsListDivisionRate.REWARD_RATE + widget.itemsListDivisionRate.BRIBE_RATE
+              //             : (Isaward ? widget.itemsListDivisionRate.TREASURY_RATE + widget.itemsListDivisionRate.REWARD_RATE : (IsBribe ? widget.itemsListDivisionRate.TREASURY_RATE + widget.itemsListDivisionRate.BRIBE_RATE : widget.itemsListDivisionRate.TREASURY_RATE)) * item.Controller.Total) /
+              //         100,
+              //     "BRIBE_RATE": (IsBribe ? widget.itemsListDivisionRate.BRIBE_RATE - widget.itemsListDivisionRate.BRIBE_RATE : widget.itemsListDivisionRate.BRIBE_RATE * item.Controller.Total) / 100,
+              //     "REWARD_RATE": (Isaward ? widget.itemsListDivisionRate.REWARD_RATE - widget.itemsListDivisionRate.REWARD_RATE : widget.itemsListDivisionRate.REWARD_RATE * item.Controller.Total) / 100,
+              //     "PRODUCT_GROUP_NAME": item.PRODUCT_GROUP_NAME,
+              //     "PRODUCT_CATEGORY_NAME": item.PRODUCT_CATEGORY_NAME,
+              //     "PRODUCT_TYPE_NAME": item.PRODUCT_TYPE_NAME,
+              //     "PRODUCT_SUBTYPE_NAME": item.PRODUCT_SUBTYPE_NAME,
+              //     "PRODUCT_SUBSETTYPE_NAME": "",
+              //     "PRODUCT_BRAND_NAME_TH": item.PRODUCT_BRAND_NAME_TH,
+              //     "PRODUCT_BRAND_NAME_EN": item.PRODUCT_BRAND_NAME_EN,
+              //     "PRODUCT_SUBBRAND_NAME_TH": item.PRODUCT_SUBBRAND_NAME_TH,
+              //     "PRODUCT_SUBBRAND_NAME_EN": item.PRODUCT_SUBBRAND_NAME_EN,
+              //     "PRODUCT_MODEL_NAME_TH": item.PRODUCT_MODEL_NAME_TH,
+              //     "PRODUCT_MODEL_NAME_EN": item.PRODUCT_MODEL_NAME_EN,
+              //     "SIZES": item.SIZES,
+              //     "SIZES_UNIT": item.SIZES_UNIT,
+              //     "QUANTITY": item.QUANTITY,
+              //     "QUANTITY_UNIT": item.QUANTITY_UNIT,
+              //     "VOLUMN": item.VOLUMN,
+              //     "VOLUMN_UNIT": item.VOLUMN_UNIT,
+              //     "IS_ACTIVE": 1
+              //   });
+              // });
 
               List<Map> map_compare_payment_det = [];
               widget.itemsCompareNotice.forEach((f) {
@@ -2732,9 +2732,9 @@ class _FragmentState extends State<CompareDetailScreenFragment> with TickerProvi
                 "RECEIPT_OFFICE_ID": "",
                 "APPROVE_OFFICE_ID": "",
                 "MISTREAT_NO": _indicmentDetail.MISTREAT_NO,
-                "OLD_PAYMENT_FINE": FINE_TOTAL > _indicmentDetail.FINE_TOTAL ? _indicmentDetail.FINE_TOTAL : "",
+                //"OLD_PAYMENT_FINE": FINE_TOTAL > _indicmentDetail.FINE_TOTAL ? _indicmentDetail.FINE_TOTAL : "",
                 "PAYMENT_FINE": FINE_TOTAL,
-                "DIFFERENCE_PAYMENT_FINE": FINE_TOTAL - _indicmentDetail.FINE_TOTAL,
+                //"DIFFERENCE_PAYMENT_FINE": FINE_TOTAL - _indicmentDetail.FINE_TOTAL,
                 "TREASURY_MONEY": (Isaward && IsBribe
                         ? widget.itemsListDivisionRate.TREASURY_RATE + widget.itemsListDivisionRate.REWARD_RATE + widget.itemsListDivisionRate.BRIBE_RATE
                         : (Isaward ? widget.itemsListDivisionRate.TREASURY_RATE + widget.itemsListDivisionRate.REWARD_RATE : (IsBribe ? widget.itemsListDivisionRate.TREASURY_RATE + widget.itemsListDivisionRate.BRIBE_RATE : widget.itemsListDivisionRate.TREASURY_RATE)) * FINE_TOTAL) /
@@ -2825,11 +2825,11 @@ class _FragmentState extends State<CompareDetailScreenFragment> with TickerProvi
               "OLD_PAYMENT_FINE": /*_indicmentDetail.FINE_TOTAL>_itemsCompareArrestMain.FINE
                   ?_itemsCompareArrestMain.FINE:*/
                   "",
-              "PAYMENT_FINE": _indicmentDetail.FINE_TOTAL,
+              //"PAYMENT_FINE": _indicmentDetail.FINE_TOTAL,
               "DIFFERENCE_PAYMENT_FINE": /*_indicmentDetail.FINE_TOTAL-_itemsCompareArrestMain.FINE*/ "",
-              "TREASURY_MONEY": (widget.itemsListDivisionRate.TREASURY_RATE * _indicmentDetail.FINE_TOTAL) / 100,
-              "BRIBE_MONEY": (widget.itemsListDivisionRate.BRIBE_RATE * _indicmentDetail.FINE_TOTAL) / 100,
-              "REWARD_MONEY": (widget.itemsListDivisionRate.REWARD_RATE * _indicmentDetail.FINE_TOTAL) / 100,
+              //"TREASURY_MONEY": (widget.itemsListDivisionRate.TREASURY_RATE * _indicmentDetail.FINE_TOTAL) / 100,
+              //"BRIBE_MONEY": (widget.itemsListDivisionRate.BRIBE_RATE * _indicmentDetail.FINE_TOTAL) / 100,
+              //"REWARD_MONEY": (widget.itemsListDivisionRate.REWARD_RATE * _indicmentDetail.FINE_TOTAL) / 100,
               "PAYMENT_FINE_DUE_DATE": IsRelease ? _dtFineDueDate.toString() : "",
               "PAYMENT_VAT_DUE_DATE": _dtTaxDueDate.toString(),
               "INSURANCE": editCompareBail.text,

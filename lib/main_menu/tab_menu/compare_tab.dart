@@ -64,12 +64,14 @@ class _FragmentState extends State<CompareFragment> {
         String compare_year = "";
         /*DateTime dt_lawsuit_year = DateTime.parse(
                   itemMain[index].LAWSUIT_NO_YEAR);*/
-        DateTime dt_lawsuit_year = itemMain[index].LAWSUIT_NO_YEAR != null ? DateTime.parse(itemMain[index].LAWSUIT_NO_YEAR) : DateTime.now();
-        List splitslawYear = dateFormatDate.format(dt_lawsuit_year).toString().split(" ");
+        //DateTime dt_lawsuit_year = itemMain[index].LAWSUIT_NO_YEAR != null ? DateTime.parse(itemMain[index].LAWSUIT_NO_YEAR) : DateTime.now();
+        //List splitslawYear = dateFormatDate.format(dt_lawsuit_year).toString().split(" ");
 
-        String title_lawsuit_name = itemMain[index].LAWSUIT_TITLE_SHORT_NAME_TH != null ? itemMain[index].LAWSUIT_TITLE_SHORT_NAME_TH : itemMain[index].LAWSUIT_TITLE_NAME_TH;
+        //String title_lawsuit_name = itemMain[index].LAWSUIT_TITLE_SHORT_NAME_TH != null ? itemMain[index].LAWSUIT_TITLE_SHORT_NAME_TH : itemMain[index].LAWSUIT_TITLE_NAME_TH;
+        String title_lawsuit_name = "ทดสอบ";
 
-        compare_year = (int.parse(splitslawYear[3]) + 543).toString();
+        //compare_year = (int.parse(splitslawYear[3]) + 543).toString();
+        compare_year = itemMain[index].LAWSUIT_NO_YEAR;
         return Padding(
           padding: EdgeInsets.only(top: 2.0, bottom: 2.0),
           child: Container(
@@ -110,7 +112,8 @@ class _FragmentState extends State<CompareFragment> {
                     Container(
                       padding: paddingData,
                       child: Text(
-                        title_lawsuit_name + itemMain[index].LAWSUIT_FIRST_NAME + " " + itemMain[index].LAWSUIT_LAST_NAME,
+                        "ทดสอบ",
+                        //title_lawsuit_name + itemMain[index].LAWSUIT_FIRST_NAME + " " + itemMain[index].LAWSUIT_LAST_NAME,
                         style: textStyleData,
                       ),
                     ),
@@ -251,7 +254,8 @@ class _FragmentState extends State<CompareFragment> {
           List<ItemsCompareList> items = [];
           snapshot.data.forEach((f) {
             if ((f.COMPARE_ID == null || f.COMPARE_ID == 0) && f.IS_COMPARE == 1) {
-              if ((f.PROVE_NO > 0 && f.IS_PROVE == 1) || (f.PROVE_NO <= 0 && f.IS_PROVE == 0)) {
+              //if ((f.PROVE_NO > 0 && f.IS_PROVE == 1) || (f.PROVE_NO <= 0 && f.IS_PROVE == 0)) {
+              if ((f.PROVE_NO != null && f.IS_PROVE == 1) || (f.PROVE_NO != null && f.IS_PROVE == 0)) {
                 items.add(f);
               }
             }

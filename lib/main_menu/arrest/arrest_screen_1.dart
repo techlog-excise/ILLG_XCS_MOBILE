@@ -16,6 +16,7 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:prototype_app_pang/Model/choice.dart';
+import 'package:prototype_app_pang/component/custom_dialog.dart';
 import 'package:prototype_app_pang/font_family/font_style.dart';
 import 'package:prototype_app_pang/main_menu/arrest/model/item_arrest_indictment_detail.dart';
 import 'package:prototype_app_pang/main_menu/arrest/model/item_arrest_indictment_edit.dart';
@@ -2275,9 +2276,21 @@ class _ArrestMainScreenFragmentState extends State<ArrestMainScreenFragment> wit
                     // ====================================================================================================
                     // =========================================== SET BEHAVIOR ===========================================
                     String textLawsuitBreaker = "";
+                    String Evidence = "";
+                    String EvidenceItem = "";
+                    String Section = "";
                     // _itemsDataTab4 = ชื่อผู้ต้องหา
-                    // name suspect
                     textLawsuitBreaker = " โดยจับกุมตัวผู้ต้องหาจำนวน " + _itemsDataTab4.length.toString() + " คน " + (_itemsDataTab4.length == 0 ? "" : "คือ ");
+                    Evidence = "พร้อมได้ยึดของกลาง ดังนี้ ";
+
+                    //จำนวนและรายการของกลาง
+                    int index_pro = 0;
+                    _itemsDataTab5.forEach((f) {
+                      index_pro++;
+                      EvidenceItem += f.PRODUCT_DESC.toString() + (index_pro != _itemsDataTab5.length ? ", " : " ");
+                    });
+
+                    //รายการผู้ต้องหา
                     _itemsDataTab4.forEach((item) {
                       textLawsuitBreaker += item.PERSON_TYPE == 2
                           ? (item.TITLE_SHORT_NAME_TH != null ? item.TITLE_SHORT_NAME_TH : item.TITLE_NAME_TH) + item.COMPANY_NAME
@@ -2285,8 +2298,14 @@ class _ArrestMainScreenFragmentState extends State<ArrestMainScreenFragment> wit
                               ? (item.TITLE_SHORT_NAME_TH != null ? item.TITLE_SHORT_NAME_TH : item.TITLE_NAME_TH) + item.FIRST_NAME + " " + item.LAST_NAME + " "
                               : (item.TITLE_SHORT_NAME_EN != null ? item.TITLE_SHORT_NAME_EN : item.TITLE_NAME_EN) + item.FIRST_NAME + " " + item.LAST_NAME + " ";
                     });
-                    _tempTextLawsuitBreaker = textLawsuitBreaker;
-                    setBehavior(textLawsuitBreaker + (_tempEvidenceItem == "" ? "" : (_tempEvidence + _tempEvidenceItem)) + (_itemsInitTab6.length == 0 ? "" : _tempSection));
+
+                    Section = "ในข้อกล่าวหา ";
+                    int index_sec = 0;
+                    _itemsInitTab6.forEach((item) {
+                      index_sec++;
+                      Section += item.GUILTBASE_NAME + (index_sec != _itemsInitTab6.length ? ", " : " ");
+                    });
+                    setBehavior(textLawsuitBreaker + (Evidence + EvidenceItem) + Section);
                     // ====================================================================================================
                   } else if (type.endsWith("Product")) {
                     _itemsInitTab6.forEach((item) {
@@ -2300,9 +2319,13 @@ class _ArrestMainScreenFragmentState extends State<ArrestMainScreenFragment> wit
                     _itemsDataTab5Ops.removeAt(index);
 
                     // =========================================== SET BEHAVIOR ===========================================
+                    String textLawsuitBreaker = "";
+                    String Evidence = "";
                     String EvidenceItem = "";
                     String Section = "";
-                    // _itemsInitTab6 = ข้อกล่าวหา
+                    // _itemsDataTab4 = ชื่อผู้ต้องหา
+                    textLawsuitBreaker = " โดยจับกุมตัวผู้ต้องหาจำนวน " + _itemsDataTab4.length.toString() + " คน " + (_itemsDataTab4.length == 0 ? "" : "คือ ");
+                    Evidence = "พร้อมได้ยึดของกลาง ดังนี้ ";
 
                     //จำนวนและรายการของกลาง
                     int index_pro = 0;
@@ -2310,32 +2333,58 @@ class _ArrestMainScreenFragmentState extends State<ArrestMainScreenFragment> wit
                       index_pro++;
                       EvidenceItem += f.PRODUCT_DESC.toString() + (index_pro != _itemsDataTab5.length ? ", " : " ");
                     });
-                    _tempEvidenceItem = EvidenceItem;
-                    //ข้อกล่าวหา
+
+                    //รายการผู้ต้องหา
+                    _itemsDataTab4.forEach((item) {
+                      textLawsuitBreaker += item.PERSON_TYPE == 2
+                          ? (item.TITLE_SHORT_NAME_TH != null ? item.TITLE_SHORT_NAME_TH : item.TITLE_NAME_TH) + item.COMPANY_NAME
+                          : item.PERSON_TYPE == 0
+                              ? (item.TITLE_SHORT_NAME_TH != null ? item.TITLE_SHORT_NAME_TH : item.TITLE_NAME_TH) + item.FIRST_NAME + " " + item.LAST_NAME + " "
+                              : (item.TITLE_SHORT_NAME_EN != null ? item.TITLE_SHORT_NAME_EN : item.TITLE_NAME_EN) + item.FIRST_NAME + " " + item.LAST_NAME + " ";
+                    });
+
                     Section = "ในข้อกล่าวหา ";
                     int index_sec = 0;
                     _itemsInitTab6.forEach((item) {
                       index_sec++;
-                      Section += (item.ArrestIndictmentDetail.length > 1 ? "ร่วมกัน" : "") + item.GUILTBASE_NAME + (index_sec != _itemsInitTab6.length ? ", " : " ");
+                      Section += item.GUILTBASE_NAME + (index_sec != _itemsInitTab6.length ? ", " : " ");
                     });
-                    _tempSection = Section;
-                    //ใส่ข้อมูลลง text
-                    setBehavior(_tempTextLawsuitBreaker + (_tempEvidenceItem == "" ? "" : (_tempEvidence + _tempEvidenceItem)) + (_itemsInitTab6.length == 0 ? "" : _tempSection));
+                    setBehavior(textLawsuitBreaker + (Evidence + EvidenceItem) + Section);
                     // ====================================================================================================
                   } else if (type.endsWith("Indicment")) {
                     _itemsInitTab6.removeAt(index);
                     // =========================================== SET BEHAVIOR ===========================================
+                    String textLawsuitBreaker = "";
+                    String Evidence = "";
+                    String EvidenceItem = "";
                     String Section = "";
-                    // _itemsInitTab6 = ข้อกล่าวหา
-                    //ข้อกล่าวหา
+                    // _itemsDataTab4 = ชื่อผู้ต้องหา
+                    textLawsuitBreaker = " โดยจับกุมตัวผู้ต้องหาจำนวน " + _itemsDataTab4.length.toString() + " คน " + (_itemsDataTab4.length == 0 ? "" : "คือ ");
+                    Evidence = "พร้อมได้ยึดของกลาง ดังนี้ ";
+
+                    //จำนวนและรายการของกลาง
+                    int index_pro = 0;
+                    _itemsDataTab5.forEach((f) {
+                      index_pro++;
+                      EvidenceItem += f.PRODUCT_DESC.toString() + (index_pro != _itemsDataTab5.length ? ", " : " ");
+                    });
+
+                    //รายการผู้ต้องหา
+                    _itemsDataTab4.forEach((item) {
+                      textLawsuitBreaker += item.PERSON_TYPE == 2
+                          ? (item.TITLE_SHORT_NAME_TH != null ? item.TITLE_SHORT_NAME_TH : item.TITLE_NAME_TH) + item.COMPANY_NAME
+                          : item.PERSON_TYPE == 0
+                              ? (item.TITLE_SHORT_NAME_TH != null ? item.TITLE_SHORT_NAME_TH : item.TITLE_NAME_TH) + item.FIRST_NAME + " " + item.LAST_NAME + " "
+                              : (item.TITLE_SHORT_NAME_EN != null ? item.TITLE_SHORT_NAME_EN : item.TITLE_NAME_EN) + item.FIRST_NAME + " " + item.LAST_NAME + " ";
+                    });
+
                     Section = "ในข้อกล่าวหา ";
                     int index_sec = 0;
                     _itemsInitTab6.forEach((item) {
                       index_sec++;
-                      Section += (item.ArrestIndictmentDetail.length > 1 ? "ร่วมกัน" : "") + item.GUILTBASE_NAME + (index_sec != _itemsInitTab6.length ? ", " : " ");
+                      Section += item.GUILTBASE_NAME + (index_sec != _itemsInitTab6.length ? ", " : " ");
                     });
-                    _tempSection = Section;
-                    setBehavior(_tempTextLawsuitBreaker + (_tempEvidenceItem == "" ? "" : (_tempEvidence + _tempEvidenceItem)) + (_itemsInitTab6.length == 0 ? "" : Section));
+                    setBehavior(textLawsuitBreaker + (Evidence + EvidenceItem) + Section);
                     // ====================================================================================================
                   } else if (type.endsWith("PersonUp")) {
                     /*_arrestMain.ArrestIndictment.forEach((head) {
@@ -4239,7 +4288,7 @@ class _ArrestMainScreenFragmentState extends State<ArrestMainScreenFragment> wit
                             Container(
                               padding: paddingLabel,
                               child: Text(
-                                "วันที่เขียน",
+                                "วั���ที่เขียน",
                                 style: textLabelStyle,
                               ),
                             ),
@@ -5199,6 +5248,40 @@ class _ArrestMainScreenFragmentState extends State<ArrestMainScreenFragment> wit
 
         list_add_lawbreaker = ItemsAll1;
         // print("object: ${list_add_lawbreaker.length}");
+        // =========================================== SET BEHAVIOR ===========================================
+        String textLawsuitBreaker = "";
+        String EvidenceItem = "";
+        String Section = "";
+
+        if (_arrestMain.ArrestIndictment.length > 0) {
+          int index_pro = 0;
+          _arrestMain.ArrestProduct.forEach((f) {
+            index_pro++;
+            EvidenceItem += f.PRODUCT_DESC.toString() + (index_pro != _arrestMain.ArrestProduct.length ? ", " : " ");
+          });
+          _tempEvidenceItem = EvidenceItem;
+
+          textLawsuitBreaker = " โดยจับกุมตัวผู้ต้องหาจำนวน " + _arrestMain.ArrestLawbreaker.length.toString() + " คน " + (_arrestMain.ArrestLawbreaker.length == 0 ? "" : "คือ ");
+          //รายการผู้ต้องหา
+          _arrestMain.ArrestLawbreaker.forEach((item) {
+            textLawsuitBreaker += item.PERSON_TYPE == 2
+                ? (item.TITLE_SHORT_NAME_TH != null ? item.TITLE_SHORT_NAME_TH : item.TITLE_NAME_TH) + item.COMPANY_NAME
+                : item.PERSON_TYPE == 0
+                    ? (item.TITLE_SHORT_NAME_TH != null ? item.TITLE_SHORT_NAME_TH : item.TITLE_NAME_TH) + item.FIRST_NAME + " " + item.LAST_NAME + " "
+                    : (item.TITLE_SHORT_NAME_EN != null ? item.TITLE_SHORT_NAME_EN : item.TITLE_NAME_EN) + item.FIRST_NAME + " " + item.LAST_NAME + " ";
+          });
+          _tempTextLawsuitBreaker = textLawsuitBreaker;
+
+          Section = "ในข้อกล่าวหา ";
+          int index_sec = 0;
+          _arrestMain.ArrestIndictment.forEach((item) {
+            index_sec++;
+            Section += (item.ArrestIndictmentDetail.length > 1 ? "ร่วมกัน" : "") + item.GUILTBASE_NAME + (index_sec != _itemsInitTab6.length ? ", " : " ");
+          });
+          _tempSection = Section;
+          setBehavior(textLawsuitBreaker + (EvidenceItem == "" ? "" : (_tempEvidence + EvidenceItem)) + Section);
+          // ====================================================================================================
+        }
       } else {
         List items = result;
         //List itemsInit = _itemsDataTab4;
@@ -5221,9 +5304,21 @@ class _ArrestMainScreenFragmentState extends State<ArrestMainScreenFragment> wit
 
         // =========================================== SET BEHAVIOR ===========================================
         String textLawsuitBreaker = "";
+        String Evidence = "";
+        String EvidenceItem = "";
+        String Section = "";
         // _itemsDataTab4 = ชื่อผู้ต้องหา
-        // จำนวนและชื่อของผู้ต้องหา
         textLawsuitBreaker = " โดยจับกุมตัวผู้ต้องหาจำนวน " + _itemsDataTab4.length.toString() + " คน " + (_itemsDataTab4.length == 0 ? "" : "คือ ");
+        Evidence = "พร้อมได้ยึดของกลาง ดังนี้ ";
+
+        //จำนวนและรายการของกลาง
+        int index_pro = 0;
+        _itemsDataTab5.forEach((f) {
+          index_pro++;
+          EvidenceItem += f.PRODUCT_DESC.toString() + (index_pro != _itemsDataTab5.length ? ", " : " ");
+        });
+
+        //รายการผู้ต้องหา
         _itemsDataTab4.forEach((item) {
           textLawsuitBreaker += item.PERSON_TYPE == 2
               ? (item.TITLE_SHORT_NAME_TH != null ? item.TITLE_SHORT_NAME_TH : item.TITLE_NAME_TH) + item.COMPANY_NAME
@@ -5231,8 +5326,14 @@ class _ArrestMainScreenFragmentState extends State<ArrestMainScreenFragment> wit
                   ? (item.TITLE_SHORT_NAME_TH != null ? item.TITLE_SHORT_NAME_TH : item.TITLE_NAME_TH) + item.FIRST_NAME + " " + item.LAST_NAME + " "
                   : (item.TITLE_SHORT_NAME_EN != null ? item.TITLE_SHORT_NAME_EN : item.TITLE_NAME_EN) + item.FIRST_NAME + " " + item.LAST_NAME + " ";
         });
-        _tempTextLawsuitBreaker = textLawsuitBreaker;
-        setBehavior(textLawsuitBreaker + (_tempEvidenceItem == "" ? "" : (_tempEvidence + _tempEvidenceItem)) + (_itemsInitTab6.length == 0 ? "" : _tempSection));
+
+        Section = "ในข้อกล่าวหา ";
+        int index_sec = 0;
+        _itemsInitTab6.forEach((item) {
+          index_sec++;
+          Section += item.GUILTBASE_NAME + (index_sec != _itemsInitTab6.length ? ", " : " ");
+        });
+        setBehavior(textLawsuitBreaker + (Evidence + EvidenceItem) + Section);
         // ====================================================================================================
       }
     }
@@ -5812,6 +5913,41 @@ class _ArrestMainScreenFragmentState extends State<ArrestMainScreenFragment> wit
           itm.ItemsListArrest5Ops.forEach((item) {
             _itemsDataTab5OpsSaved.add(item);
           });
+
+          // =========================================== SET BEHAVIOR ===========================================
+          String textLawsuitBreaker = "";
+          String EvidenceItem = "";
+          String Section = "";
+
+          if (_arrestMain.ArrestIndictment.length > 0) {
+            int index_pro = 0;
+            _arrestMain.ArrestProduct.forEach((f) {
+              index_pro++;
+              EvidenceItem += f.PRODUCT_DESC.toString() + (index_pro != _arrestMain.ArrestProduct.length ? ", " : " ");
+            });
+            _tempEvidenceItem = EvidenceItem;
+
+            textLawsuitBreaker = " โดยจับกุมตัวผู้ต้องหาจำนวน " + _arrestMain.ArrestLawbreaker.length.toString() + " คน " + (_arrestMain.ArrestLawbreaker.length == 0 ? "" : "คือ ");
+            //รายการผู้ต้องหา
+            _arrestMain.ArrestLawbreaker.forEach((item) {
+              textLawsuitBreaker += item.PERSON_TYPE == 2
+                  ? (item.TITLE_SHORT_NAME_TH != null ? item.TITLE_SHORT_NAME_TH : item.TITLE_NAME_TH) + item.COMPANY_NAME
+                  : item.PERSON_TYPE == 0
+                      ? (item.TITLE_SHORT_NAME_TH != null ? item.TITLE_SHORT_NAME_TH : item.TITLE_NAME_TH) + item.FIRST_NAME + " " + item.LAST_NAME + " "
+                      : (item.TITLE_SHORT_NAME_EN != null ? item.TITLE_SHORT_NAME_EN : item.TITLE_NAME_EN) + item.FIRST_NAME + " " + item.LAST_NAME + " ";
+            });
+            _tempTextLawsuitBreaker = textLawsuitBreaker;
+
+            Section = "ในข้อกล่าวหา ";
+            int index_sec = 0;
+            _arrestMain.ArrestIndictment.forEach((item) {
+              index_sec++;
+              Section += (item.ArrestIndictmentDetail.length > 1 ? "ร่วมกัน" : "") + item.GUILTBASE_NAME + (index_sec != _itemsInitTab6.length ? ", " : " ");
+            });
+            _tempSection = Section;
+            setBehavior(textLawsuitBreaker + (EvidenceItem == "" ? "" : (_tempEvidence + EvidenceItem)) + Section);
+          }
+          // ====================================================================================================
         } else {
           ItemsListArrest5Test itm = result;
           itm.ItemsListArrest5Mas.forEach((item) {
@@ -5838,16 +5974,38 @@ class _ArrestMainScreenFragmentState extends State<ArrestMainScreenFragment> wit
           _itemsDataTab5 = ItemsAll;
 
           // ====================================== SET BEHAVIOR ======================================
+          String textLawsuitBreaker = "";
+          String Evidence = "";
           String EvidenceItem = "";
-          // _itemsDataTab5 = name of evidence
+          String Section = "";
+          // _itemsDataTab4 = ชื่อผู้ต้องหา
+          textLawsuitBreaker = " โดยจับกุมตัวผู้ต้องหาจำนวน " + _itemsDataTab4.length.toString() + " คน " + (_itemsDataTab4.length == 0 ? "" : "คือ ");
+          Evidence = "พร้อมได้ยึดของกลาง ดังนี้ ";
 
+          //จำนวนและรายการของกลาง
           int index_pro = 0;
           _itemsDataTab5.forEach((f) {
             index_pro++;
             EvidenceItem += f.PRODUCT_DESC.toString() + (index_pro != _itemsDataTab5.length ? ", " : " ");
           });
-          _tempEvidenceItem = EvidenceItem;
-          setBehavior(_tempTextLawsuitBreaker + (EvidenceItem == "" ? "" : (_tempEvidence + EvidenceItem)) + (_itemsInitTab6.length == 0 ? "" : _tempSection));
+
+          //รายการผู้ต้องหา
+          _itemsDataTab4.forEach((item) {
+            textLawsuitBreaker += item.PERSON_TYPE == 2
+                ? (item.TITLE_SHORT_NAME_TH != null ? item.TITLE_SHORT_NAME_TH : item.TITLE_NAME_TH) + item.COMPANY_NAME
+                : item.PERSON_TYPE == 0
+                    ? (item.TITLE_SHORT_NAME_TH != null ? item.TITLE_SHORT_NAME_TH : item.TITLE_NAME_TH) + item.FIRST_NAME + " " + item.LAST_NAME + " "
+                    : (item.TITLE_SHORT_NAME_EN != null ? item.TITLE_SHORT_NAME_EN : item.TITLE_NAME_EN) + item.FIRST_NAME + " " + item.LAST_NAME + " ";
+          });
+
+          Section = "ในข้อกล่าวหา ";
+          int index_sec = 0;
+          _itemsInitTab6.forEach((item) {
+            index_sec++;
+            Section += item.GUILTBASE_NAME + (index_sec != _itemsInitTab6.length ? ", " : " ");
+          });
+          setBehavior(textLawsuitBreaker + (Evidence + EvidenceItem) + Section);
+          //setBehavior(_tempTextLawsuitBreaker + (EvidenceItem == "" ? "" : (_tempEvidence + EvidenceItem)) + (_itemsInitTab6.length == 0 ? "" : _tempSection));
           // ==========================================================================================
 
           /*List items = result;
@@ -6530,41 +6688,40 @@ class _ArrestMainScreenFragmentState extends State<ArrestMainScreenFragment> wit
         _arrestMain.ArrestIndictment.add(items);
         list_add_indicment.add(items);
 
-        // // =========================================== SET BEHAVIOR ===========================================
-        // String textLawsuitBreaker = "";
-        // String EvidenceItem = "";
-        // String Section = "";
+        // =========================================== SET BEHAVIOR ===========================================
+        String textLawsuitBreaker = "";
+        String EvidenceItem = "";
+        String Section = "";
 
-        // print("this is edit");
-        // if (_arrestMain.ArrestIndictment.length > 0) {
-        //   int index_pro = 0;
-        //   _arrestMain.ArrestProduct.forEach((f) {
-        //     index_pro++;
-        //     EvidenceItem += f.PRODUCT_DESC.toString() + (index_pro != _arrestMain.ArrestProduct.length ? ", " : " ");
-        //   });
-        //   _tempEvidenceItem = EvidenceItem;
+        if (_arrestMain.ArrestIndictment.length > 0) {
+          int index_pro = 0;
+          _arrestMain.ArrestProduct.forEach((f) {
+            index_pro++;
+            EvidenceItem += f.PRODUCT_DESC.toString() + (index_pro != _arrestMain.ArrestProduct.length ? ", " : " ");
+          });
+          _tempEvidenceItem = EvidenceItem;
 
-        //   textLawsuitBreaker = " โดยจับกุมตัวผู้ต้องหาจำนวน " + _arrestMain.ArrestLawbreaker.length.toString() + " คน " + (_arrestMain.ArrestLawbreaker.length == 0 ? "" : "คือ ");
-        //   //รายการผู้ต้องหา
-        //   _arrestMain.ArrestLawbreaker.forEach((item) {
-        //     textLawsuitBreaker += item.PERSON_TYPE == 2
-        //         ? (item.TITLE_SHORT_NAME_TH != null ? item.TITLE_SHORT_NAME_TH : item.TITLE_NAME_TH) + item.COMPANY_NAME
-        //         : item.PERSON_TYPE == 0
-        //             ? (item.TITLE_SHORT_NAME_TH != null ? item.TITLE_SHORT_NAME_TH : item.TITLE_NAME_TH) + item.FIRST_NAME + " " + item.LAST_NAME + " "
-        //             : (item.TITLE_SHORT_NAME_EN != null ? item.TITLE_SHORT_NAME_EN : item.TITLE_NAME_EN) + item.FIRST_NAME + " " + item.LAST_NAME + " ";
-        //   });
-        //   _tempTextLawsuitBreaker = textLawsuitBreaker;
+          textLawsuitBreaker = " โดยจับกุมตัวผู้ต้องหาจำนวน " + _arrestMain.ArrestLawbreaker.length.toString() + " คน " + (_arrestMain.ArrestLawbreaker.length == 0 ? "" : "คือ ");
+          //รายการผู้ต้องหา
+          _arrestMain.ArrestLawbreaker.forEach((item) {
+            textLawsuitBreaker += item.PERSON_TYPE == 2
+                ? (item.TITLE_SHORT_NAME_TH != null ? item.TITLE_SHORT_NAME_TH : item.TITLE_NAME_TH) + item.COMPANY_NAME
+                : item.PERSON_TYPE == 0
+                    ? (item.TITLE_SHORT_NAME_TH != null ? item.TITLE_SHORT_NAME_TH : item.TITLE_NAME_TH) + item.FIRST_NAME + " " + item.LAST_NAME + " "
+                    : (item.TITLE_SHORT_NAME_EN != null ? item.TITLE_SHORT_NAME_EN : item.TITLE_NAME_EN) + item.FIRST_NAME + " " + item.LAST_NAME + " ";
+          });
+          _tempTextLawsuitBreaker = textLawsuitBreaker;
 
-        //   Section = "ในข้อกล่าวหา ";
-        //   int index_sec = 0;
-        //   _arrestMain.ArrestIndictment.forEach((item) {
-        //     index_sec++;
-        //     Section += (item.ArrestIndictmentDetail.length > 1 ? "ร่วมกัน" : "") + item.GUILTBASE_NAME + (index_sec != _itemsInitTab6.length ? ", " : " ");
-        //   });
-        //   _tempSection = Section;
-        //   setBehavior(textLawsuitBreaker + (EvidenceItem == "" ? "" : (_tempEvidence + EvidenceItem)) + Section);
-        //   // ====================================================================================================
-        // }
+          Section = "ในข้อกล่าวหา ";
+          int index_sec = 0;
+          _arrestMain.ArrestIndictment.forEach((item) {
+            index_sec++;
+            Section += (item.ArrestIndictmentDetail.length > 1 ? "ร่วมกัน" : "") + item.GUILTBASE_NAME + (index_sec != _itemsInitTab6.length ? ", " : " ");
+          });
+          _tempSection = Section;
+          setBehavior(textLawsuitBreaker + (EvidenceItem == "" ? "" : (_tempEvidence + EvidenceItem)) + Section);
+          // ====================================================================================================
+        }
       } else {
         print(result.toString());
         //_itemsDataTab5 = result;
@@ -6574,25 +6731,23 @@ class _ArrestMainScreenFragmentState extends State<ArrestMainScreenFragment> wit
           ItemsListArrest6Section item = result;
           _itemsInitTab6.add(item);
 
-          String textLawsuitBreaker = "";
-          String EvidenceItem = "";
-          String Section = "";
-          int counts = 0;
-
           if (_itemsInitTab6.length > 0) {
-            //จำนวนผู้ต้องหา
-            counts = _itemsDataTab4.length;
+            String textLawsuitBreaker = "";
+            String Evidence = "";
+            String EvidenceItem = "";
+            String Section = "";
+            // _itemsDataTab4 = ชื่อผู้ต้องหา
+            textLawsuitBreaker = " โดยจับกุมตัวผู้ต้องหาจำนวน " + _itemsDataTab4.length.toString() + " คน " + (_itemsDataTab4.length == 0 ? "" : "คือ ");
+            Evidence = "พร้อมได้ยึดของกลาง ดังนี้ ";
 
-            // =========================================== SET BEHAVIOR ===========================================
-            textLawsuitBreaker = " โดยจับกุมตัวผู้ต้องหาจำนวน " + counts.toString() + " คน " + (counts == 0 ? "" : "คือ ");
-            //list evidence
+            //จำนวนและรายการของกลาง
             int index_pro = 0;
             _itemsDataTab5.forEach((f) {
               index_pro++;
               EvidenceItem += f.PRODUCT_DESC.toString() + (index_pro != _itemsDataTab5.length ? ", " : " ");
             });
-            _tempEvidenceItem = EvidenceItem;
-            //list suspect
+
+            //รายการผู้ต้องหา
             _itemsDataTab4.forEach((item) {
               textLawsuitBreaker += item.PERSON_TYPE == 2
                   ? (item.TITLE_SHORT_NAME_TH != null ? item.TITLE_SHORT_NAME_TH : item.TITLE_NAME_TH) + item.COMPANY_NAME
@@ -6600,16 +6755,14 @@ class _ArrestMainScreenFragmentState extends State<ArrestMainScreenFragment> wit
                       ? (item.TITLE_SHORT_NAME_TH != null ? item.TITLE_SHORT_NAME_TH : item.TITLE_NAME_TH) + item.FIRST_NAME + " " + item.LAST_NAME + " "
                       : (item.TITLE_SHORT_NAME_EN != null ? item.TITLE_SHORT_NAME_EN : item.TITLE_NAME_EN) + item.FIRST_NAME + " " + item.LAST_NAME + " ";
             });
-            _tempTextLawsuitBreaker = textLawsuitBreaker;
 
             Section = "ในข้อกล่าวหา ";
             int index_sec = 0;
             _itemsInitTab6.forEach((item) {
               index_sec++;
-              Section += (item.ArrestIndictmentDetail.length > 1 ? "ร่วมกัน" : "") + item.GUILTBASE_NAME + (index_sec != _itemsInitTab6.length ? ", " : " ");
+              Section += item.GUILTBASE_NAME + (index_sec != _itemsInitTab6.length ? ", " : " ");
             });
-            _tempSection = Section;
-            setBehavior(textLawsuitBreaker + (EvidenceItem == "" ? "" : (_tempEvidence + EvidenceItem)) + Section);
+            setBehavior(textLawsuitBreaker + (Evidence + EvidenceItem) + Section);
           }
           // ====================================================================================================
         });
@@ -6631,9 +6784,6 @@ class _ArrestMainScreenFragmentState extends State<ArrestMainScreenFragment> wit
     if (result.toString() != "back") {
       setState(() {
         if (_onEdited) {
-          print("onEdit");
-          print("onEdit: $result");
-
           var item = result;
           List _userNotChooseAgain = [];
           List _userChoose = [];
@@ -6707,58 +6857,62 @@ class _ArrestMainScreenFragmentState extends State<ArrestMainScreenFragment> wit
           list_update_indicment.removeWhere((item) => item.INDICTMENT_ID == _arrestMain.ArrestIndictment[index].INDICTMENT_ID);
           list_update_indicment.add(_arrestMain.ArrestIndictment[index]);
           print("length: ${list_update_indicment.length}");
-          // // ==============================================================================================
-          // // =========================================== SET BEHAVIOR ===========================================
-          // String textLawsuitBreaker = "";
-          // String EvidenceItem = "";
-          // String Section = "";
-          // if (_arrestMain.ArrestIndictment.length > 0) {
-          //   textLawsuitBreaker = " โดยจับกุมตัวผู้ต้องหาจำนวน " + _arrestMain.ArrestLawbreaker.length.toString() + " คน " + (_arrestMain.ArrestLawbreaker.length == 0 ? "" : "คือ ");
-          //   Section = "ในข้อกล่าวหา ";
-          //   // list evidence
-          //   int index_pro = 0;
-          //   _arrestMain.ArrestProduct.forEach((f) {
-          //     index_pro++;
-          //     EvidenceItem += f.PRODUCT_DESC.toString() + (index_pro != _arrestMain.ArrestProduct.length ? ", " : " ");
-          //   });
-          //   _tempEvidenceItem = EvidenceItem;
-          //   //รายการผู้ต้องหา
-          //   _arrestMain.ArrestLawbreaker.forEach((item) {
-          //     textLawsuitBreaker += item.PERSON_TYPE == 2
-          //         ? (item.TITLE_SHORT_NAME_TH != null ? item.TITLE_SHORT_NAME_TH : item.TITLE_NAME_TH) + item.COMPANY_NAME
-          //         : item.PERSON_TYPE == 0
-          //             ? (item.TITLE_SHORT_NAME_TH != null ? item.TITLE_SHORT_NAME_TH : item.TITLE_NAME_TH) + item.FIRST_NAME + " " + item.LAST_NAME + " "
-          //             : (item.TITLE_SHORT_NAME_EN != null ? item.TITLE_SHORT_NAME_EN : item.TITLE_NAME_EN) + item.FIRST_NAME + " " + item.LAST_NAME + " ";
-          //   });
-          //   _tempTextLawsuitBreaker = textLawsuitBreaker;
+          // ==============================================================================================
+          // =========================================== SET BEHAVIOR ===========================================
+          String textLawsuitBreaker = "";
+          String EvidenceItem = "";
+          String Section = "";
+          if (_arrestMain.ArrestIndictment.length > 0) {
+            textLawsuitBreaker = " โดยจับกุมตัวผู้ต้องหาจำนวน " + _arrestMain.ArrestLawbreaker.length.toString() + " คน " + (_arrestMain.ArrestLawbreaker.length == 0 ? "" : "คือ ");
+            Section = "ในข้อกล่าวหา ";
+            // list evidence
+            int index_pro = 0;
+            _arrestMain.ArrestProduct.forEach((f) {
+              index_pro++;
+              EvidenceItem += f.PRODUCT_DESC.toString() + (index_pro != _arrestMain.ArrestProduct.length ? ", " : " ");
+            });
+            _tempEvidenceItem = EvidenceItem;
+            //รายการผู้ต้องหา
+            _arrestMain.ArrestLawbreaker.forEach((item) {
+              textLawsuitBreaker += item.PERSON_TYPE == 2
+                  ? (item.TITLE_SHORT_NAME_TH != null ? item.TITLE_SHORT_NAME_TH : item.TITLE_NAME_TH) + item.COMPANY_NAME
+                  : item.PERSON_TYPE == 0
+                      ? (item.TITLE_SHORT_NAME_TH != null ? item.TITLE_SHORT_NAME_TH : item.TITLE_NAME_TH) + item.FIRST_NAME + " " + item.LAST_NAME + " "
+                      : (item.TITLE_SHORT_NAME_EN != null ? item.TITLE_SHORT_NAME_EN : item.TITLE_NAME_EN) + item.FIRST_NAME + " " + item.LAST_NAME + " ";
+            });
+            _tempTextLawsuitBreaker = textLawsuitBreaker;
 
-          //   int index_sec = 0;
-          //   _arrestMain.ArrestIndictment.forEach((item) {
-          //     index_sec++;
-          //     Section += (item.ArrestIndictmentDetail.length > 1 ? "ร่วมกัน" : "") + item.GUILTBASE_NAME + (index_sec != _itemsInitTab6.length ? ", " : " ");
-          //   });
-          //   _tempSection = Section;
-          //   setBehavior(textLawsuitBreaker + (EvidenceItem == "" ? "" : (_tempEvidence + EvidenceItem)) + Section);
-          // }
-          // // ====================================================================================================
+            int index_sec = 0;
+            _arrestMain.ArrestIndictment.forEach((item) {
+              index_sec++;
+              Section += (item.ArrestIndictmentDetail.length > 1 ? "ร่วมกัน" : "") + item.GUILTBASE_NAME + (index_sec != _itemsInitTab6.length ? ", " : " ");
+            });
+            _tempSection = Section;
+            setBehavior(textLawsuitBreaker + (EvidenceItem == "" ? "" : (_tempEvidence + EvidenceItem)) + Section);
+          }
+          // ====================================================================================================
         } else {
           IsSelected_tab6 = true;
           var item = result;
           _itemsInitTab6[index] = item;
 
           // =========================================== SET BEHAVIOR ===========================================
-          //String textLawsuitBreaker = "";
-          //String EvidenceItem = "";
-          String Section = "";
           if (_itemsInitTab6.length > 0) {
-            /*textLawsuitBreaker = " โดยจับกุมตัวผู้ต้องหาจำนวน " + _itemsDataTab4.length.toString() + " คน " + (_itemsDataTab4.length == 0 ? "" : "คือ ");
+            String textLawsuitBreaker = "";
+            String Evidence = "";
+            String EvidenceItem = "";
+            String Section = "";
+            // _itemsDataTab4 = ชื่อผู้ต้องหา
+            textLawsuitBreaker = " โดยจับกุมตัวผู้ต้องหาจำนวน " + _itemsDataTab4.length.toString() + " คน " + (_itemsDataTab4.length == 0 ? "" : "คือ ");
+            Evidence = "พร้อมได้ยึดของกลาง ดังนี้ ";
+
             //จำนวนและรายการของกลาง
             int index_pro = 0;
             _itemsDataTab5.forEach((f) {
               index_pro++;
               EvidenceItem += f.PRODUCT_DESC.toString() + (index_pro != _itemsDataTab5.length ? ", " : " ");
             });
-            _tempEvidenceItem = EvidenceItem;
+
             //รายการผู้ต้องหา
             _itemsDataTab4.forEach((item) {
               textLawsuitBreaker += item.PERSON_TYPE == 2
@@ -6767,16 +6921,14 @@ class _ArrestMainScreenFragmentState extends State<ArrestMainScreenFragment> wit
                       ? (item.TITLE_SHORT_NAME_TH != null ? item.TITLE_SHORT_NAME_TH : item.TITLE_NAME_TH) + item.FIRST_NAME + " " + item.LAST_NAME + " "
                       : (item.TITLE_SHORT_NAME_EN != null ? item.TITLE_SHORT_NAME_EN : item.TITLE_NAME_EN) + item.FIRST_NAME + " " + item.LAST_NAME + " ";
             });
-            _tempTextLawsuitBreaker = textLawsuitBreaker;
-            */
+
             Section = "ในข้อกล่าวหา ";
             int index_sec = 0;
             _itemsInitTab6.forEach((item) {
               index_sec++;
-              Section += (item.ArrestIndictmentDetail.length > 1 ? "ร่วมกัน" : "") + item.GUILTBASE_NAME + (index_sec != _itemsInitTab6.length ? ", " : " ");
+              Section += item.GUILTBASE_NAME + (index_sec != _itemsInitTab6.length ? ", " : " ");
             });
-            _tempSection = Section;
-            setBehavior(_tempTextLawsuitBreaker + (_tempEvidenceItem == "" ? "" : (_tempEvidence + _tempEvidenceItem)) + Section);
+            setBehavior(textLawsuitBreaker + (Evidence + EvidenceItem) + Section);
             // ====================================================================================================
           }
         }
@@ -8023,17 +8175,22 @@ class _ArrestMainScreenFragmentState extends State<ArrestMainScreenFragment> wit
             }
           } else {
             if (_itemsInitTab6.length > 0) {
-              textLawsuitBreaker = " โดยจับกุมตัวผู้ต้องหาจำนวน " + _itemsDataTab4.length.toString() + " ครั้ง " + (_itemsDataTab4.length == 0 ? "" : "คือ ");
-              EvidenceItem = "";
-              Section = "ในข้อกล่าวหา ";
+              String textLawsuitBreaker = "";
+              String Evidence = "";
+              String EvidenceItem = "";
+              String Section = "";
+              // _itemsDataTab4 = ชื่อผู้ต้องหา
+              textLawsuitBreaker = " โดยจับกุมตัวผู้ต้องหาจำนวน " + _itemsDataTab4.length.toString() + " คน " + (_itemsDataTab4.length == 0 ? "" : "คือ ");
+              Evidence = "พร้อมได้ยึดของกลาง ดังนี้ ";
+
               //จำนวนและรายการของกลาง
               int index_pro = 0;
               _itemsDataTab5.forEach((f) {
                 index_pro++;
                 EvidenceItem += f.PRODUCT_DESC.toString() + (index_pro != _itemsDataTab5.length ? ", " : " ");
               });
-              _tempEvidenceItem = EvidenceItem;
-              // name of suspect
+
+              //รายการผู้ต้องหา
               _itemsDataTab4.forEach((item) {
                 textLawsuitBreaker += item.PERSON_TYPE == 2
                     ? (item.TITLE_SHORT_NAME_TH != null ? item.TITLE_SHORT_NAME_TH : item.TITLE_NAME_TH) + item.COMPANY_NAME
@@ -8041,15 +8198,14 @@ class _ArrestMainScreenFragmentState extends State<ArrestMainScreenFragment> wit
                         ? (item.TITLE_SHORT_NAME_TH != null ? item.TITLE_SHORT_NAME_TH : item.TITLE_NAME_TH) + item.FIRST_NAME + " " + item.LAST_NAME + " "
                         : (item.TITLE_SHORT_NAME_EN != null ? item.TITLE_SHORT_NAME_EN : item.TITLE_NAME_EN) + item.FIRST_NAME + " " + item.LAST_NAME + " ";
               });
-              _tempTextLawsuitBreaker = textLawsuitBreaker;
 
+              Section = "ในข้อกล่าวหา ";
               int index_sec = 0;
               _itemsInitTab6.forEach((item) {
                 index_sec++;
-                Section += (item.ArrestIndictmentDetail.length > 1 ? "ร่วมกัน" : "") + item.GUILTBASE_NAME + (index_sec != _itemsInitTab6.length ? ", " : " ");
+                Section += item.GUILTBASE_NAME + (index_sec != _itemsInitTab6.length ? ", " : " ");
               });
-              _tempSection = Section;
-              setBehavior(textLawsuitBreaker + (EvidenceItem == "" ? "" : (_tempEvidence + EvidenceItem)) + Section);
+              setBehavior(textLawsuitBreaker + (Evidence + EvidenceItem) + Section);
             }
           }
           // ====================================================================================================
@@ -8061,6 +8217,29 @@ class _ArrestMainScreenFragmentState extends State<ArrestMainScreenFragment> wit
   //************************end_tab_6*****************************
 
   //************************start_tab_7*****************************
+  void _showHistoryDialog() {
+    List<String> list = [];
+    list.add(_arrestMain.BEHAVIOR_1);
+    list.add(_arrestMain.BEHAVIOR_2);
+    list.add(_arrestMain.BEHAVIOR_3);
+    list.add(_arrestMain.BEHAVIOR_4);
+    list.add(_arrestMain.BEHAVIOR_5);
+    String behavior = "";
+    list.forEach((string) {
+      if (string != null) {
+        behavior += string;
+      }
+    });
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) => CustomDialog(
+        title: "พฤติกรรมการจับกุม",
+        description: behavior,
+      ),
+    );
+  }
+
   Widget _buildContent_tab_7() {
     Widget _buildContent() {
       EdgeInsets paddindTextTitle = EdgeInsets.only(bottom: 18.0);
@@ -8087,9 +8266,39 @@ class _ArrestMainScreenFragmentState extends State<ArrestMainScreenFragment> wit
                     children: <Widget>[
                       Padding(
                         padding: paddindTextTitle,
-                        child: Text(
-                          "พฤติกรรมการจับกุม",
-                          style: textLabelStyle,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Padding(
+                              padding: paddindTextTitle,
+                              child: Text(
+                                "พฤติกรรมการจับกุม",
+                                style: textLabelStyle,
+                              ),
+                            ),
+                            new Card(
+                              shape: new RoundedRectangleBorder(side: new BorderSide(color: Colors.black26, width: 1.5), borderRadius: BorderRadius.circular(12.0)),
+                              elevation: 0.0,
+                              child: Container(
+                                // width: 100.0,
+                                child: new MaterialButton(
+                                  onPressed: () {
+                                    _showHistoryDialog();
+                                  },
+                                  splashColor: Colors.grey,
+                                  child: new Text(
+                                    "ดูข้อความก่อนหน้า",
+                                    style: TextStyle(
+                                      fontSize: 16.0,
+                                      fontWeight: FontWeight.w500,
+                                      color: Colors.black54,
+                                      fontFamily: FontStyles().FontFamily,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                       TextField(

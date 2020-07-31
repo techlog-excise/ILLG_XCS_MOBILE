@@ -1,5 +1,6 @@
 class Server {
-  String IPAddress = "http://103.233.193.94:1111/XCS60";
+  //String IPAddress = "http://103.233.193.94:1111/XCS60";
+  String IPAddress = "http://103.233.193.62:1111/XCS60";
   String IPAddressLoginSO = "http://192.168.3.158:8086/XCS60";
   String IPAddressLogin = "http://192.168.3.158:1111/XCS60";
   String IPAddressMaster = "http://103.233.193.94:2222/XCS60";

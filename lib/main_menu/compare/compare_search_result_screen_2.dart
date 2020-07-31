@@ -82,17 +82,19 @@ class _FragmentState extends State<CompareMainScreenFragmentSearchResult> {
         String lawsuit_year = "", compare_year = "";
         /*DateTime dt_lawsuit_year = DateTime.parse(
             _searchResult[index].LAWSUIT_NO_YEAR);*/
-        DateTime dt_lawsuit_year = _searchResult[index].LAWSUIT_NO_YEAR != null ? DateTime.parse(_searchResult[index].LAWSUIT_NO_YEAR) : DateTime.now();
+        //DateTime dt_lawsuit_year = _searchResult[index].LAWSUIT_NO_YEAR != null ? DateTime.parse(_searchResult[index].LAWSUIT_NO_YEAR) : DateTime.now();
 
-        List splitslawYear = dateFormatDate.format(dt_lawsuit_year).toString().split(" ");
-        lawsuit_year = (int.parse(splitslawYear[3]) + 543).toString();
+        //List splitslawYear = dateFormatDate.format(dt_lawsuit_year).toString().split(" ");
+        //lawsuit_year = (int.parse(splitslawYear[3]) + 543).toString();
+        lawsuit_year = _searchResult[index].LAWSUIT_NO_YEAR != null ? _searchResult[index].LAWSUIT_NO_YEAR : "-";
 
         if (_searchResult[index].COMPARE_ID != 0) {
           /*DateTime dt_compare_year = DateTime.parse(
               _searchResult[index].COMPARE_NO_YEAR);*/
-          DateTime dt_compare_year = _searchResult[index].COMPARE_NO_YEAR != null ? DateTime.parse(_searchResult[index].COMPARE_NO_YEAR) : DateTime.now();
-          List splitsCompareYear = dateFormatDate.format(dt_compare_year).toString().split(" ");
-          compare_year = (int.parse(splitsCompareYear[3]) + 543).toString();
+          //DateTime dt_compare_year = _searchResult[index].COMPARE_NO_YEAR != null ? DateTime.parse(_searchResult[index].COMPARE_NO_YEAR) : DateTime.now();
+          //List splitsCompareYear = dateFormatDate.format(dt_compare_year).toString().split(" ");
+          //compare_year = (int.parse(splitsCompareYear[3]) + 543).toString();
+          compare_year = _searchResult[index].COMPARE_NO_YEAR != null ? _searchResult[index].COMPARE_NO_YEAR : "-";
         }
 
         return Padding(
@@ -137,7 +139,8 @@ class _FragmentState extends State<CompareMainScreenFragmentSearchResult> {
                           Container(
                             padding: paddingInputBox,
                             child: Text(
-                              _searchResult[index].COMPARE_FIRST_NAME != null ? (_searchResult[index].COMPARE_TITLE_SHORT_NAME_TH.toString() + _searchResult[index].COMPARE_FIRST_NAME.toString() + " " + _searchResult[index].COMPARE_LAST_NAME.toString()) : "",
+                              "ทดสอบ",
+                              //_searchResult[index].COMPARE_FIRST_NAME != null ? (_searchResult[index].COMPARE_TITLE_SHORT_NAME_TH.toString() + _searchResult[index].COMPARE_FIRST_NAME.toString() + " " + _searchResult[index].COMPARE_LAST_NAME.toString()) : "",
                               style: textInputStyle,
                             ),
                           ),
@@ -171,7 +174,8 @@ class _FragmentState extends State<CompareMainScreenFragmentSearchResult> {
                           Container(
                             padding: paddingInputBox,
                             child: Text(
-                              _searchResult[index].LAWSUIT_TITLE_SHORT_NAME_TH.toString() + _searchResult[index].LAWSUIT_FIRST_NAME + " " + _searchResult[index].LAWSUIT_LAST_NAME,
+                              "ทดสอบ",
+                              //_searchResult[index].LAWSUIT_TITLE_SHORT_NAME_TH.toString() + _searchResult[index].LAWSUIT_FIRST_NAME + " " + _searchResult[index].LAWSUIT_LAST_NAME,
                               style: textInputStyle,
                             ),
                           ),

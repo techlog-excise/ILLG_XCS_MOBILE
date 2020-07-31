@@ -250,26 +250,26 @@ class _FragmentState extends State<CompareRewardScreenFragment> with TickerProvi
     List c_list = [];
     List<ItemsCompareListProveProduct> a_list = [];
     List<GroupType> b_list = [];
-    itemCompareIndicment.CompareProveProduct.forEach((f) {
-      c_list.add(f.PRODUCT_GROUP_ID);
-    });
-    var distinctIds = c_list.toSet().toList();
-    /*distinctIds.forEach((f){
+    // itemCompareIndicment.CompareProveProduct.forEach((f) {
+    //   c_list.add(f.PRODUCT_GROUP_ID);
+    // });
+    // var distinctIds = c_list.toSet().toList();
+    // /*distinctIds.forEach((f){
 
-    });*/
-    print("distinctIds : " + distinctIds.length.toString());
+    // });*/
+    // print("distinctIds : " + distinctIds.length.toString());
 
-    distinctIds.forEach((f) {
-      List<ItemsCompareListProveProduct> _list = [];
-      String _name;
-      itemCompareIndicment.CompareProveProduct.forEach((ff) {
-        if (f == ff.PRODUCT_GROUP_ID) {
-          _list.add(ff);
-          _name = ff.PRODUCT_GROUP_NAME;
-        }
-      });
-      b_list.add(new GroupType(_name, _list));
-    });
+    // distinctIds.forEach((f) {
+    //   List<ItemsCompareListProveProduct> _list = [];
+    //   String _name;
+    //   itemCompareIndicment.CompareProveProduct.forEach((ff) {
+    //     if (f == ff.PRODUCT_GROUP_ID) {
+    //       _list.add(ff);
+    //       _name = ff.PRODUCT_GROUP_NAME;
+    //     }
+    //   });
+    //   b_list.add(new GroupType(_name, _list));
+    // });
 
     Widget _buildExpanded(index) {
       return Container(
